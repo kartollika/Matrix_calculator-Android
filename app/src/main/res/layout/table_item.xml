@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <kartollika.matrixcalc.EditTextDottable
+        android:id="@+id/cell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/back"
+        android:digits="0,1,2,3,4,5,6,7,8,9,.,/,-"
+        android:gravity="center"
+        android:maxLines="1"
+        android:minEms="1"
+        android:minWidth="35dp"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:longClickable="false">
+
+    </kartollika.matrixcalc.EditTextDottable>
+
+</FrameLayout>
+
+

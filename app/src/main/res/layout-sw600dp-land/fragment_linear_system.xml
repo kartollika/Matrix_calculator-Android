@@ -1,0 +1,118 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/colorCardBackground"
+    tools:context="kartollika.matrixcalc.startfragments.LinearSystemFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/fl">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="70"
+                android:orientation="vertical"
+                tools:ignore="UselessLeaf"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/system4"
+                    style="@style/Widget.AppCompat.Button.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="40"
+                    android:background="@drawable/ripple_effect_input_and_controls_med_low"
+                    android:ems="3"
+                    android:text="@string/matrix_A"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorButtonText"
+                    android:textSize="@dimen/ts_input"
+                    android:visibility="invisible"
+                    tools:ignore="NestedWeights" />
+
+                <Button
+                    android:id="@+id/system"
+                    style="@style/Widget.AppCompat.Button.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="70"
+                    android:background="@drawable/ripple_effect_input_and_controls_med_low"
+                    android:ems="3"
+                    android:text="@string/matrix_A"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorButtonText"
+                    android:textSize="@dimen/ts_input" />
+
+                <Button
+                    android:id="@+id/system2"
+                    style="@style/Widget.AppCompat.Button.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="40"
+                    android:background="@drawable/ripple_effect_input_and_controls_med_low"
+                    android:ems="3"
+                    android:text="@string/matrix_A"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorButtonText"
+                    android:textSize="@dimen/ts_input"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="70"
+                android:orientation="vertical"
+                tools:ignore="UselessLeaf">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp">
+
+            <Button
+                android:id="@+id/solve_system"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/ripple_action"
+                android:ems="12"
+                android:padding="8dp"
+                android:text="@string/gauss"
+                android:textAllCaps="false"
+                android:textColor="@color/colorButtonTextAction"
+                android:textSize="@dimen/ts_action" />
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="attributes">
+        <attr name="cellNotDiagInactive" format="color"/>
+        <attr name="cellDiagInactive" format="color"/>
+        <attr name="cellExtensInactive" format="color"/>
+        <attr name="cellNotDiagActive" format="color"/>
+        <attr name="cellDiagActive" format="color"/>
+        <attr name="cellExtensActive" format="color"/>
+        <attr name="colorButtonInput" format="color"/>
+        <attr name="colorButtonOperation" format="color"/>
+        <attr name="colorCardBackground" format="color"/>
+        <attr name="colorBottomNavIconActive" format="color"/>
+        <attr name="colorBottomNavIconInactive" format="color"/>
+        <attr name="colorBookmarks" format="color"/>
+        <attr name="colorKeyboard" format="color"/>
+        <attr name="colorSteps" format="color"/>
+        <attr name="colorButtonAction" format="color"/>
+        <attr name="colorBackground" format="color"/>
+        <attr name="colorPrimaryText" format="color"/>
+        <attr name="colorTextCreateMatrix" format="color"/>
+        <attr name="colorButtonText" format="color"/>
+        <attr name="colorHints" format="color"/>
+        <attr name="colorButtonTextAction" format="color"/>
+        <attr name="colorContrast" format="color"/>
+
+    </declare-styleable>
+</resources>

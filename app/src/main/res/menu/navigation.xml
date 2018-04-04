@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_operations"
+        android:icon="@drawable/ic_add_circle_black_24dp"
+        android:title="@string/title_operations" />
+
+    <item
+        android:id="@+id/navigation_linearsystem"
+        android:icon="@drawable/ic_format_list_numbered_black_24dp"
+        android:title="@string/title_SLE" />
+
+</menu>

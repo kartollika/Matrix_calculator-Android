@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@android:style/Widget.DeviceDefault.Button.Borderless"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:layout_weight="1"
+    android:background="@drawable/ripple_item_choose_oper"
+    android:gravity="center"
+    android:minEms="6"
+    android:textAllCaps="false"
+    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    android:textColor="@color/colorContrast">
+
+</Button>

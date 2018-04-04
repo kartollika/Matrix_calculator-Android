@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#9e9e9e</color>
+    <color name="colorPrimaryDark">#818181</color>
+    <color name="colorAccent">@color/colorButtonOperation</color>
+    <color name="textColorPrimary">#ffffff</color>
+
+    <color name="colorBackground">#efebe9</color>
+    <color name="colorCardBackground">#ffffff</color>
+
+    <color name="colorRippleItemChooseOper">@color/colorPrimary</color>
+
+    <color name="cellNotDiagActive">#00d0cf</color>
+    <color name="cellNotDiagInactive">#4dd0e1</color>
+    <color name="cellDiagActive">#2196f3</color>
+    <color name="cellDiagInactive">#64b5f6</color>
+    <color name="cellExtensActive">#e1c0ff</color>
+    <color name="cellExtensInactive">#c290ef</color>
+
+    <color name="colorButtonInput">#2196f3</color>
+    <color name="colorRippleInput">#01579b</color>
+
+    <color name="colorButtonOperation">#ff4081</color>
+    <color name="colorRippleOperation">#ad1457</color>
+    <color name="colorOperationChoosed">#9f9f9f</color>
+
+    <color name="colorButtonAction">#ffa726</color>
+    <color name="colorRippleAction">#d1820d</color>
+
+    <color name="colorBottomNavIconActive">@color/colorAccent</color>
+    <color name="colorBottomNavIconInactive">#757575</color>
+
+    <color name="colorTextCreateMatrix">#616161</color>
+    <color name="colorBookmarks">#42a5f5</color>
+    <color name="colorRippleBookmarks">#0f62b4</color>
+    <color name="colorDimensionControls">#b9b9b9</color>
+    <color name="colorDimensionRippleControls">#808080</color>
+    <color name="colorHideSettings">#f06292</color>
+    <color name="colorHideSettingsRipple">#d1245e</color>
+    <color name="colorKeyboard">#ababab</color>
+    <color name="colorKeyboardBackground">#757575</color>
+
+    <color name="colorSteps">#42a5f5</color>
+    <color name="colorRippleSteps">#237cc4</color>
+    <color name="colorHints">#4b4b4b</color>
+    <color name="colorActivateStepsDisabled">#9e9e9e</color>
+    <color name="colorActivateStepsTextColorDisabled">#bebebe</color>
+
+    <color name="colorButtonText">#ffffff</color>
+    <color name="colorButtonTextAction">#ffffff</color>
+    <color name="colorTextOperations">@color/colorAccent</color>
+
+    <color name="colorContrast">#000000</color>
+
+</resources>

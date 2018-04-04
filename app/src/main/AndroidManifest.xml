@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="kartollika.matrixcalc">
+
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true">
+
+    </supports-screens>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name="kartollika.matrixcalc.GlobalValues"
+        android:label="@string/app_name"
+        android:icon="@mipmap/icon">
+        <activity
+            android:name="kartollika.matrixcalc.SplashScreenActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="kartollika.matrixcalc.MainActivity"
+            android:label="@string/title_activity_main">
+
+        </activity>
+        <activity
+            android:name="kartollika.matrixcalc.SettingsActivity"
+            android:label="@string/settings"
+            android:launchMode="singleTop">
+
+        </activity>
+        <activity
+            android:name="kartollika.matrixcalc.InputMatrixActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
+
+        </activity>
+        <activity
+            android:name="kartollika.matrixcalc.ChooseOperationActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/OperationsTheme">
+
+        </activity>
+        <activity
+            android:name="kartollika.matrixcalc.ShowResultActivity"
+            android:label="@string/save"
+            android:launchMode="singleTop">
+
+        </activity>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,9 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false">
+        <color android:color="@color/colorDimensionControls"/>
+    </item>
+
+    <item android:state_pressed="true">
+        <color android:color="@color/colorDimensionRippleControls"/>
+    </item>
+</selector>

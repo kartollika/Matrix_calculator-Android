@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="dimensions"
+        android:title="@string/dimensions">
+        <ListPreference
+            android:defaultValue="3"
+            android:dialogTitle="@string/defrowstitle"
+            android:entries="@array/dimensions"
+            android:entryValues="@array/dimensions"
+            android:key="defDimN"
+            android:summary="@string/defrowssumm"
+            android:title="@string/defrows">
+
+        </ListPreference>
+
+        <ListPreference
+            android:defaultValue="3"
+            android:dialogTitle="@string/defcolstitle"
+            android:entries="@array/dimensions"
+            android:entryValues="@array/dimensions"
+            android:key="defDimM"
+            android:summary="@string/defcolssumm"
+            android:title="@string/defcols">
+
+        </ListPreference>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="system"
+        android:title="@string/app_settings">
+
+        <CheckBoxPreference
+            android:id="@+id/experimental"
+            android:defaultValue="0"
+            android:key="experimental"
+            android:summary="@string/exp_enable"
+            android:title="@string/experimental">
+
+        </CheckBoxPreference>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="isDarkmode"
+            android:summary="@string/ondarkmode"
+            android:title="@string/darkmode" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/about_app">
+        <PreferenceScreen
+            android:key="version"
+            android:summary="1.0"
+            android:title="@string/app_version">
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="rateThis"
+            android:summary="@string/do_you_like_it"
+            android:title="@string/rate_in_gp">
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1079978901484",
+    "firebase_url": "https://matrixx-1ae56.firebaseio.com",
+    "project_id": "matrixx-1ae56",
+    "storage_bucket": "matrixx-1ae56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079978901484:android:43a1adf20a08930f",
+        "android_client_info": {
+          "package_name": "kartollika.matrixcalc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079978901484-u5ojb8akjul3dpou80a579rr6h4md28b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0k01yU2YO_roEVJXU4hllYO11IDtpj78"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079978901484-u5ojb8akjul3dpou80a579rr6h4md28b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

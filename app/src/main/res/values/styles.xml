@@ -1,0 +1,49 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+
+    </style>
+
+    <style name="SettingsThemeLight" parent="AppTheme">
+        <item name="android:background">#efebe9</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#757575</item>
+        <item name="colorAccent">#ff4081</item>
+        <item name="android:textColorAlertDialogListItem">#000000</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimTransitions</item>
+    </style>
+
+    <style name="SettingsThemeDark" parent="AppTheme">
+        <item name="android:background">#212121</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColorSecondary">#c2c2c2</item>
+        <item name="colorAccent">#fb696a</item>
+        <item name="android:textColorAlertDialogListItem">#ffffff</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimTransitions</item>
+    </style>
+
+    <style name="WindowAnimTransitions">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="OperationsTheme" parent="Theme.AppCompat.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.AppCompat.Light.NoActionBar.Fullscreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+
+    <style name="noActionBar" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    </style>
+
+</resources>
