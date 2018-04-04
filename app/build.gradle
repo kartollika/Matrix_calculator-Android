@@ -5,7 +5,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId 'kartollika.matrixcalc'
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 10
         versionName "1.1"

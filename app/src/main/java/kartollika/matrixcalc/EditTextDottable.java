@@ -121,4 +121,16 @@ public class EditTextDottable extends android.support.v7.widget.AppCompatEditTex
         }
         hasDivider = false;
     }
+
+    public void setMinus(boolean status) {
+        hasMinus = status;
+    }
+
+    public void setDivider(boolean status) {
+        hasDivider = status;
+    }
+
+    public void setDot(boolean status) {
+        hasDot = status;
+    }
 }

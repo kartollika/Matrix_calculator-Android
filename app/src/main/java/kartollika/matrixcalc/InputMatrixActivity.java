@@ -161,7 +161,7 @@ public class InputMatrixActivity extends Activity implements
                         }
 
                         if (et != null) {
-                            if (et.isHasMinus()) {
+                            if (et.getText().toString().contains("-")) {
                                 et.delMinus();
                             } else {
                                 et.addMinus();
@@ -177,7 +177,18 @@ public class InputMatrixActivity extends Activity implements
                             break;
                         }
                         if (et != null) {
-                            Editable s = et.getText();
+                            String s = et.getText().toString();
+                            if (s.contains("/")) {
+                                et.setDivider(true);
+                                et.setDot(false);
+                            } else if (s.contains(".")) {
+                                et.setDivider(false);
+                                et.setDot(true);
+                            } else {
+                                et.setDot(false);
+                                et.setDivider(false);
+                            }
+
                             if (et.isHasDot() || et.isHasDivider()) {
                                 if (s.charAt(et.getSelectionStart() - 1) == '.') {
                                     et.replaceDot();
