@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences preferences;
     Boolean isCreated = false;
     private int curNightMode = AppCompatDelegate.getDefaultNightMode();
-    BannerView bannerView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -143,15 +142,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.remove_ads:
                 if (GlobalValues.canShowVideo()) {
                     AlertDialog dialog = new AlertDialog.Builder(this)
-                            .setTitle("Убрать рекламные блоки")
-                            .setMessage("Посмотреть рекламный ролик, чтобы убрать баннеры на (2) часа")
-                            .setPositiveButton("Посмотреть", new DialogInterface.OnClickListener() {
+                            .setTitle(getResources().getString(R.string.remove_banners))
+                            .setMessage(getResources().getString(R.string.message_about_removing_banners))
+                            .setPositiveButton(getResources().getString(R.string.watch), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     loadVideo(activity);
                                 }
                             })
-                            .setNegativeButton("Назад", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(getResources().getString(R.string.back), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -161,7 +160,8 @@ public class MainActivity extends AppCompatActivity {
                             .create();
                     dialog.show();
                 } else {
-                    Utilities.createLongToast(activity, "Баннеры до сих пор скрыты. Видео не может быть показано сейчас").show();
+                    Utilities.createLongToast(activity,
+                            getResources().getString(R.string.error_try_watch_ad_again)).show();
                 }
                 return true;
 
@@ -210,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         getIntent().removeExtra("operation");
         Appodeal.destroy(Appodeal.BANNER);
-        // ((AdView) findViewById(R.id.adView)).destroy();
 
         preferences = getPrefs();
         SharedPreferences.Editor editor = preferences.edit();
@@ -239,7 +238,8 @@ public class MainActivity extends AppCompatActivity {
         Appodeal.disableLocationPermissionCheck();
         Appodeal.setBannerViewId(R.id.appodealBannerView);
         Appodeal.setBannerAnimation(false);
-        Appodeal.initialize(activity, GlobalValues.appKey, Appodeal.BANNER_VIEW | Appodeal.REWARDED_VIDEO);
+        Appodeal.initialize(activity, GlobalValues.appKey, Appodeal.BANNER_VIEW
+                | Appodeal.REWARDED_VIDEO);
         Appodeal.show(activity, Appodeal.BANNER_VIEW);
     }
 
@@ -251,6 +251,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onRewardedVideoFailedToLoad() {
+                Utilities.createShortToast(getApplicationContext(),
+                        getResources().getString(R.string.failed_watch_ad_connection_problem)).show();
             }
 
             @Override
@@ -259,11 +261,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onRewardedVideoFinished(int i, String s) {
-                GlobalValues.setEstimatedTimeToWatchVideo(System.currentTimeMillis() + 2 * 60 * 60 * 1000);
+                GlobalValues.setEstimatedTimeToWatchVideo(System.currentTimeMillis()
+                        + GlobalValues.ESTIMATED_TIME);
             }
 
             @Override
             public void onRewardedVideoClosed(boolean b) {
+                Utilities.createShortToast(getApplicationContext(),
+                        getResources().getString(R.string.succ_blocked_banners)).show();
             }
         });
         Appodeal.show(activity, Appodeal.REWARDED_VIDEO);

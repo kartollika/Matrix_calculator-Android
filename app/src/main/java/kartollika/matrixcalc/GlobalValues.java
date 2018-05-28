@@ -10,6 +10,8 @@ import com.appodeal.ads.Appodeal;
 
 public class GlobalValues extends Application {
 
+    public static final long ESTIMATED_TIME = 2 * 60 * 60 * 1000;
+
     public static Matrix[] matrices = new Matrix[2];
     public static Matrix systemMatrix;
     public static String appKey = "74a017a006898d5e98a9918cff4807f2b6dc172da3ea45aa";

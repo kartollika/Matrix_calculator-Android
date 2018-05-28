@@ -160,4 +160,10 @@
     <string name="to_slot_system">в слот матрицы</string>
     <string name="save_to_slot_success">Матрица сохранена в слот системы</string>
     <string name="watch_ad">Убрать баннеры</string>
+    <string name="failed_watch_ad_connection_problem">Не получилось загрузить видео. Проверьте настройки соединения</string>
+    <string name="succ_blocked_banners">Вы отключили баннеры на 2 часа</string>
+    <string name="remove_banners">Убрать рекламные блоки</string>
+    <string name="message_about_removing_banners">Посмотреть рекламный ролик, чтобы убрать баннеры на (2) часа</string>
+    <string name="watch">Посмотреть</string>
+    <string name="error_try_watch_ad_again">Баннеры до сих пор скрыты. Видео не может быть показано сейчас</string>
 </resources>

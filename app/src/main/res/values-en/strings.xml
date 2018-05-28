@@ -135,4 +135,10 @@
     <string name="noUpdateAvailable">You are up to date!</string>
     <string name="update_available_from_settings_part2">Click to notification in panel to update the app from Google Play</string>
     <string name="watch_ad">Remove ads</string>
+    <string name="watch">Watch</string>
+    <string name="remove_banners">Remove ad banners</string>
+    <string name="succ_blocked_banners">You blocked banners for 2 hours</string>
+    <string name="message_about_removing_banners">Watch an advertisement to block banners for (2) hours</string>
+    <string name="failed_watch_ad_connection_problem">Failed to load the video. Please, check your internet connection</string>
+    <string name="error_try_watch_ad_again">Banners are still blocked. Can not show another video</string>
 </resources>

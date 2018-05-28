@@ -79,10 +79,9 @@ public class UpdateCheckerService extends Service {
     }
 
     private void checkForUpdates() {
-        //int curVersionCode = BuildConfig.VERSION_CODE;
+        int curVersionCode = BuildConfig.VERSION_CODE;
         // String curVersionName = "1.1"; //DEBUG
         Pair<Integer, String> latestVersion = null;
-        int curVersionCode = 10;
 
         while (latestVersion == null) {
             latestVersion = downloadText();
