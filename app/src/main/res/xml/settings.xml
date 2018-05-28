@@ -44,6 +44,14 @@
             android:summary="@string/ondarkmode"
             android:title="@string/darkmode" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notifications"
+            android:summary="Разрешить уведомления"
+            android:title="Уведомления">
+
+        </CheckBoxPreference>
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_app">
         <PreferenceScreen
@@ -57,6 +65,13 @@
             android:key="rateThis"
             android:summary="@string/do_you_like_it"
             android:title="@string/rate_in_gp">
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="checkUpdate"
+            android:summary="Проверить на наличие обновлений"
+            android:title="Обновить">
 
         </PreferenceScreen>
 

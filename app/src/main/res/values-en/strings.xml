@@ -38,7 +38,7 @@
     <string name="easter_egg">You have found an easter egg c:</string>
     <string name="input_pow">Enter the power</string>
     <string name="input_const">Enter the constant</string>
-    <string name="save_result">Save result...</string>
+    <string name="save_result">Save result..</string>
     <string name="apprater_remind_later">Remind me later</string>
     <string name="apprater_title">Rate app</string>
     <string name="scroll_to_see_more">scroll down to see more</string>
@@ -47,8 +47,10 @@
     <string name="matrix_dnexist">Inverse matrix doesn\'t exist</string>
     <string name="to_slot_1">in slot A</string>
     <string name="to_slot_2">in slot B</string>
-    <string name="save_to_slot_1_success">Matrix stored in slot A</string>
-    <string name="save_to_slot_2_success">Matrix stored in slot B</string>
+    <string name="to_slot_system">in slot</string>
+    <string name="save_to_slot_1_success">Matrix has stored in slot A</string>
+    <string name="save_to_slot_2_success">Matrix has stored in slot B</string>
+    <string name="save_to_slot_success">Matrix has stored in "System" slot</string>
     <string name="apprater_not_show">No, thanks</string>
     <string name="gp_not_found">Google Play services resources not found</string>
     <string name="determinant_result">Determinant:</string>
@@ -127,5 +129,10 @@
     <string name="defrowstitle">Default count of rows</string>
     <string name="defcolstitle">Default count of columns</string>
     <string name="defcolssumm">Default count of columns</string>
-
+    <string name="version">Version</string>
+    <string name="clickToUpdate">Click to update the app from Google Play</string>
+    <string name="update_available">New update available</string>
+    <string name="noUpdateAvailable">You are up to date!</string>
+    <string name="update_available_from_settings_part2">Click to notification in panel to update the app from Google Play</string>
+    <string name="watch_ad">Remove ads</string>
 </resources>

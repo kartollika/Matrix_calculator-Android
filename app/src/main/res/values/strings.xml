@@ -151,4 +151,13 @@
     <string name="rate_in_gp">Оценить приложение в Google Play</string>
     <string name="do_you_like_it">Нравится приложение? Пожалуйста, оцените его в магазине</string>
 
+    <string name="update_available">Доступно обновление!</string>
+    <string name="clickToUpdate">Нажмите, чтобы обновить приложение</string>
+    <string name="version">Версия</string>
+    <string name="noUpdateAvailable">Новых обновлений нет</string>
+    <string name="update_available_from_settings_part2">Нажмите на соответстующее уведомление на панели, чтобы обновить приложение</string>
+
+    <string name="to_slot_system">в слот матрицы</string>
+    <string name="save_to_slot_success">Матрица сохранена в слот системы</string>
+    <string name="watch_ad">Убрать баннеры</string>
 </resources>

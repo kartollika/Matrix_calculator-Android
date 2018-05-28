@@ -13,4 +13,5 @@
         android:id="@+id/rate"
         android:orderInCategory="101"
         android:title="@string/rate" />
+
 </menu>
