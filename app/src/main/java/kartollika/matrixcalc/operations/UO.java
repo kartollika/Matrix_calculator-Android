@@ -1,18 +1,18 @@
-package kartollika.matrixcalc.unaryoperations;
+package kartollika.matrixcalc.operations;
 
 import android.content.res.Resources;
 
 import kartollika.matrixcalc.Matrix;
 import kartollika.matrixcalc.Operation;
 
-abstract class UO extends Operation {
+public abstract class UO extends Operation {
     private Resources resources;
     private Matrix m;
     private int which;
     private int n;
     private Matrix extens;
 
-    UO(Matrix m) {
+    protected UO(Matrix m) {
         this.m = m;
     }
 
@@ -29,28 +29,28 @@ abstract class UO extends Operation {
         this.resources = resources;
     }
 
-    UO(Matrix m, Resources resources) {
+    protected UO(Matrix m, Resources resources) {
         this.m = m;
         this.resources = resources;
     }
 
-    Resources getRes() {
+    protected Resources getRes() {
         return resources;
     }
 
-    Matrix getM() {
+    protected Matrix getM() {
         return m;
     }
 
-    int getWhich() {
+    protected int getWhich() {
         return which;
     }
 
-    int getN() {
+    protected int getN() {
         return n;
     }
 
-    Matrix getExtens() {
+    public Matrix getExtens() {
         return extens;
     }
 }

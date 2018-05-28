@@ -1,4 +1,4 @@
-package kartollika.matrixcalc.unaryoperations;
+package kartollika.matrixcalc.operations.unaries;
 
 import android.content.res.Resources;
 

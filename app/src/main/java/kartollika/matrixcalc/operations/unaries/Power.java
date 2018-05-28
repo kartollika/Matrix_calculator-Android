@@ -1,16 +1,13 @@
-package kartollika.matrixcalc.unaryoperations;
+package kartollika.matrixcalc.operations.unaries;
 
 import android.content.res.Resources;
 
-import java.util.ArrayList;
-
 import kartollika.matrixcalc.Matrix;
 import kartollika.matrixcalc.R;
-import kartollika.matrixcalc.binaryoperations.Multiply;
+import kartollika.matrixcalc.operations.SteppableOperationUnary;
+import kartollika.matrixcalc.operations.binaries.Multiply;
 
-public class Power extends UO {
-
-    private Object[] objects;
+public class Power extends SteppableOperationUnary {
 
     public Power(Matrix m, int n, int which, Resources resources) {
         super(m, n, which, resources);
@@ -24,18 +21,14 @@ public class Power extends UO {
         result.setEFrom0();
 
         StringBuilder def = new StringBuilder("");
-        ArrayList<Matrix> matrices = new ArrayList<>();
-        ArrayList<String> strings = new ArrayList<>();
-
         def.append(getRes().getString(R.string.pow_start));
         def.append(n).append(" = ");
-        strings.add(String.valueOf(def));
-
-        matrices.add(step);
+        stepStrings.add(def.toString());
+        stepMatrices.add(step);
 
         int iter = 1;
         while (n > 0) {
-            StringBuilder s = new StringBuilder("");
+            StringBuilder stepBuilder = new StringBuilder("");
             boolean flag = false;
 
             if ((n & 1) == 1) {
@@ -45,37 +38,28 @@ public class Power extends UO {
             }
 
             if (flag) {
-                s.append(getRes().getString(R.string.needed_step_pow));
+                stepBuilder.append(getRes().getString(R.string.needed_step_pow));
             } else {
-                s.append(getRes().getString(R.string.step_pow));
+                stepBuilder.append(getRes().getString(R.string.step_pow));
             }
 
-            s.append((getWhich() == 0) ? "A" : "B");
-            s.append("<sup>").append(iter).append("</sup>:");
+            stepBuilder.append((getWhich() == 0) ? "A" : "B");
+            stepBuilder.append("<sup>").append(iter).append("</sup>:");
 
-            matrices.add(step);
+            stepMatrices.add(step);
             step = new Multiply(step, step).calc();
-
-            strings.add(String.valueOf(s));
+            stepStrings.add(stepBuilder.toString());
 
             iter *= 2;
             n >>= 1;
         }
 
         def.delete(def.length() - 3, def.length());
-        strings.set(0, String.valueOf(def));
+        stepStrings.set(0, def.toString());
 
-        strings.add(getRes().getString(R.string.pow_result));
-        matrices.add(result);
-
-        objects = new Object[2];
-        objects[0] = matrices;
-        objects[1] = strings;
+        stepStrings.add(getRes().getString(R.string.pow_result));
+        stepMatrices.add(result);
 
         return result;
-    }
-
-    public Object[] getObjects() {
-        return objects;
     }
 }

@@ -1,7 +1,8 @@
-package kartollika.matrixcalc.binaryoperations;
+package kartollika.matrixcalc.operations.binaries;
 
 import kartollika.matrixcalc.Matrix;
 import kartollika.matrixcalc.RationalNumber;
+import kartollika.matrixcalc.operations.BO;
 
 public class ConstMultiply extends BO {
     public ConstMultiply(Matrix m1, RationalNumber k) {

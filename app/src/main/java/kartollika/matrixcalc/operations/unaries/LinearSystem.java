@@ -1,19 +1,16 @@
-package kartollika.matrixcalc.unaryoperations;
+package kartollika.matrixcalc.operations.unaries;
 
 import android.content.res.Resources;
-
-import java.util.ArrayList;
 
 import kartollika.matrixcalc.Matrix;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.RationalNumber;
+import kartollika.matrixcalc.operations.SteppableOperationUnary;
 
-public class LinearSystem extends UO {
-    private Object[] objects;
+public class LinearSystem extends SteppableOperationUnary {
 
     public LinearSystem(Matrix m, Resources resources) {
         super(m, resources);
-        objects = new Object[2];
     }
 
     @Override
@@ -27,9 +24,9 @@ public class LinearSystem extends UO {
         Matrix result = goToE.getResult();
         vars = result.getColumnCount();
 
-        ArrayList<Matrix> matrices = goToE.getMatrices();
-        ArrayList<String> strings = goToE.getStrings();
-        strings.set(0, getRes().getString(R.string.gauss_start));
+        stepMatrices.addAll(goToE.getStepMatrices());
+        stepStrings.addAll(goToE.getStepStrings());
+        stepStrings.set(0, getRes().getString(R.string.gauss_start));
 
         StringBuilder stringBuilder = new StringBuilder(getRes().getString(R.string.hasSolves)).append("<br>");
         int max_rank = Math.min(result.getRowCount(), result.getColumnCount());
@@ -39,7 +36,6 @@ public class LinearSystem extends UO {
         }
 
         rank = max_rank;
-
 
         for (int i = result.getRowCount() - 1; i >= 0; --i) {
             countZeros = 0;
@@ -67,17 +63,15 @@ public class LinearSystem extends UO {
 
             if (countZeros == result.getColumnCount()) {
                 if (!result.getCoefsMap().get(100_000 + i).equals(RationalNumber.ZERO)) {
-                    strings.add(getRes().getString(R.string.noSolves, i + 1, result.getCoefsMap().get(100_000 + i)));
-                    matrices.add(new Matrix(result.getValuesMap(), result.getCoefsMap(),
+                    stepStrings.add(getRes().getString(R.string.noSolves, i + 1, result.getCoefsMap().get(100_000 + i)));
+                    stepMatrices.add(new Matrix(result.getValuesMap(), result.getCoefsMap(),
                             result.getRowCount(), result.getColumnCount()));
-                    objects[0] = matrices;
-                    objects[1] = strings;
+
                     return result;
                 }
                 rank--;
             } else {
                 stringBuilders[i].append(" = ").append(result.getCoefsMap().get(100_000 + i));
-
             }
         }
         int cur_rank = rank;
@@ -92,10 +86,9 @@ public class LinearSystem extends UO {
             stringBuilder.append(" <i><small>(").append(getRes().getString(R.string.scroll_to_see_more)).append(")</small></i><br>");
         }
 
-
         int i = 0;
         int q = 0;
-        while (!String.valueOf(stringBuilders[i]).equals("")) {
+        while (!stringBuilders[i].toString().equals("")) {
             ++q;
             if (++i == stringBuilders.length)
                 break;
@@ -107,22 +100,10 @@ public class LinearSystem extends UO {
                 stringBuilder.append(stringBuilders[j]);
             }
         }
-        /*for (int i = 0; i < stringBuilders.length; ++i) {
-            if (!String.valueOf(stringBuilders[i]).equals("")) {
-                if (i < stringBuilders.length - 2) {
-                    stringBuilder.append(stringBuilders[i].append("<br>"));
-                } else {
-                    stringBuilder.append(stringBuilders[i]);
-                }
-            }
-        }*/
 
-
-        strings.add(String.valueOf(stringBuilder));
-        matrices.add(new Matrix(result.getValuesMap(), result.getCoefsMap(),
+        stepStrings.add(stringBuilder.toString());
+        stepMatrices.add(new Matrix(result.getValuesMap(), result.getCoefsMap(),
                 result.getRowCount(), result.getColumnCount()));
-        objects[0] = matrices;
-        objects[1] = strings;
         return result;
     }
 
@@ -135,10 +116,6 @@ public class LinearSystem extends UO {
             s += "x<sub>" + String.valueOf(j + 1) + "</sub>";
         }
         return s;
-    }
-
-    public Object[] getObjects() {
-        return objects;
     }
 
 }

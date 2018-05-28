@@ -1,4 +1,4 @@
-package kartollika.matrixcalc.unaryoperations;
+package kartollika.matrixcalc.operations.unaries;
 
 import kartollika.matrixcalc.Matrix;
 import kartollika.matrixcalc.RationalNumber;

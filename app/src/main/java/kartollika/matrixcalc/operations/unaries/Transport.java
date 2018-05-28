@@ -1,9 +1,10 @@
-package kartollika.matrixcalc.unaryoperations;
+package kartollika.matrixcalc.operations.unaries;
 
 import android.util.SparseArray;
 
 import kartollika.matrixcalc.Matrix;
 import kartollika.matrixcalc.RationalNumber;
+import kartollika.matrixcalc.operations.UO;
 
 public class Transport extends UO {
 

@@ -1,9 +1,10 @@
-package kartollika.matrixcalc.binaryoperations;
+package kartollika.matrixcalc.operations.binaries;
 
 import android.util.SparseArray;
 
 import kartollika.matrixcalc.Matrix;
 import kartollika.matrixcalc.RationalNumber;
+import kartollika.matrixcalc.operations.BO;
 
 public class Multiply extends BO {
     public Multiply(Matrix m1, Matrix m2) {

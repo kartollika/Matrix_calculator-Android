@@ -1,24 +1,17 @@
-package kartollika.matrixcalc.unaryoperations;
+package kartollika.matrixcalc.operations.unaries;
 
 import android.content.res.Resources;
-
-import java.util.ArrayList;
 
 import kartollika.matrixcalc.Matrix;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.RationalNumber;
+import kartollika.matrixcalc.operations.SteppableOperationUnary;
 
-import static kartollika.matrixcalc.unaryoperations.LinesOperations.diffLines;
-import static kartollika.matrixcalc.unaryoperations.LinesOperations.multiplyLine;
-import static kartollika.matrixcalc.unaryoperations.LinesOperations.swapLines;
+public class ToDiagonal extends SteppableOperationUnary {
 
-public class ToDiagonal extends UO {
-
-    private ArrayList<Matrix> matrices;
-    private ArrayList<String> strings;
-    private ArrayList<Matrix> extensMatrices;
     private Matrix result;
     private int transpositions;
+    private boolean doingSteps = false;
 
     ToDiagonal(Matrix m, Matrix extens, Resources resources) {
         super(m, extens, resources);
@@ -30,8 +23,7 @@ public class ToDiagonal extends UO {
         Resources res = getRes();
 
         if (res != null) {
-            matrices = new ArrayList<>();
-            strings = new ArrayList<>();
+            doingSteps = true;
         }
 
         Matrix k = new Matrix(getM().getValuesMap(), getM().getCoefsMap(), getM().getRowCount(), getM().getColumnCount());
@@ -41,18 +33,17 @@ public class ToDiagonal extends UO {
 
         Matrix extens = getExtens();
         if (extens != null) {
-            extensMatrices = new ArrayList<>();
             flag = true;
-            extensMatrices.add(new Matrix(extens.getValuesMap(), extens.getRowCount(), extens.getColumnCount()));
+            stepExtensionMatrices.add(new Matrix(extens.getValuesMap(), extens.getRowCount(), extens.getColumnCount()));
         }
 
         int iter = 0;
         int notNull;
         boolean isFirst1;
 
-        if (res != null) {
-            matrices.add(getM());
-            strings.add("");
+        if (doingSteps) {
+            stepMatrices.add(getM());
+            stepStrings.add("");
         }
 
         while (iter < Math.min(k.getColumnCount(), k.getRowCount())) {
@@ -96,23 +87,22 @@ public class ToDiagonal extends UO {
 
     private void doSwap(boolean flag, Matrix k, Matrix extens, int line1, int line2) {
         if (flag) {
-            swapLines(k, extens, line1, line2);
+            LinesOperations.swapLines(k, extens, line1, line2);
             if (getRes() != null) {
-                extensMatrices.add(new Matrix(extens.getValuesMap(), extens.getRowCount(), extens.getColumnCount()));
+                stepExtensionMatrices.add(new Matrix(extens.getValuesMap(), extens.getRowCount(), extens.getColumnCount()));
             }
         } else {
-            swapLines(k, line1, line2);
+            LinesOperations.swapLines(k, line1, line2);
         }
         transpositions++;
 
         if (getRes() != null) {
-            // matrices.add(new Matrix(k));
             if (k.isCoefs()) {
-                matrices.add(new Matrix(k.getValuesMap(), k.getCoefsMap(), k.getRowCount(), k.getColumnCount()));
+                stepMatrices.add(new Matrix(k.getValuesMap(), k.getCoefsMap(), k.getRowCount(), k.getColumnCount()));
             } else {
-                matrices.add(new Matrix(k.getValuesMap(), k.getRowCount(), k.getColumnCount()));
+                stepMatrices.add(new Matrix(k.getValuesMap(), k.getRowCount(), k.getColumnCount()));
             }
-            strings.add(getRes().getString(R.string.swap, line1 + 1, line2 + 1));
+            stepStrings.add(getRes().getString(R.string.swap, line1 + 1, line2 + 1));
         }
     }
 
@@ -121,64 +111,51 @@ public class ToDiagonal extends UO {
                 .multiply(k.getValuesMap().get(line1 * 1000 + line1).inverse());
 
         if (flag) {
-            diffLines(k, extens, line1, line2, coef);
+            LinesOperations.diffLines(k, extens, line1, line2, coef);
             if (getRes() != null) {
-                extensMatrices.add(new Matrix(extens.getValuesMap(), extens.getRowCount(), extens.getColumnCount()));
+                stepExtensionMatrices.add(new Matrix(extens.getValuesMap(), extens.getRowCount(), extens.getColumnCount()));
             }
         } else {
-            diffLines(k, line1, line2, coef);
+            LinesOperations.diffLines(k, line1, line2, coef);
         }
         if (getRes() != null) {
             if (k.isCoefs()) {
-                matrices.add(new Matrix(k.getValuesMap(), k.getCoefsMap(), k.getRowCount(), k.getColumnCount()));
+                stepMatrices.add(new Matrix(k.getValuesMap(), k.getCoefsMap(), k.getRowCount(), k.getColumnCount()));
             } else {
-                matrices.add(new Matrix(k.getValuesMap(), k.getRowCount(), k.getColumnCount()));
+                stepMatrices.add(new Matrix(k.getValuesMap(), k.getRowCount(), k.getColumnCount()));
             }
-            strings.add(getRes().getString(R.string.diff, line2 + 1, line1 + 1, coef.toString()));
+            stepStrings.add(getRes().getString(R.string.diff, line2 + 1, line1 + 1, coef.toString()));
         }
     }
 
     void doMultiply(boolean flag, Matrix k, Matrix extens, int line) {
         RationalNumber coef = k.getValuesMap().get(line * 1000 + line).inverse();
         if (flag) {
-            multiplyLine(k, extens, coef, line);
+            LinesOperations.multiplyLine(k, extens, coef, line);
             if (getRes() != null) {
-                extensMatrices.add(new Matrix(extens.getValuesMap(),
+                stepExtensionMatrices.add(new Matrix(extens.getValuesMap(),
                         extens.getRowCount(), extens.getColumnCount()));
             }
         } else {
 
-            multiplyLine(k, coef, line);
+            LinesOperations.multiplyLine(k, coef, line);
         }
 
         if (getRes() != null) {
             if (k.isCoefs()) {
-                matrices.add(new Matrix(k.getValuesMap(), k.getCoefsMap(), k.getRowCount(), k.getColumnCount()));
+                stepMatrices.add(new Matrix(k.getValuesMap(), k.getCoefsMap(), k.getRowCount(), k.getColumnCount()));
             } else {
-                matrices.add(new Matrix(k.getValuesMap(), k.getRowCount(), k.getColumnCount()));
+                stepMatrices.add(new Matrix(k.getValuesMap(), k.getRowCount(), k.getColumnCount()));
             }
-            getStrings().add(getRes().getString(R.string.multi, line + 1, coef.toString()));
+            getStepStrings().add(getRes().getString(R.string.multi, line + 1, coef.toString()));
         }
-    }
-
-    ArrayList<Matrix> getMatrices() {
-        return matrices;
-    }
-
-    ArrayList<Matrix> getExtensMatrices() {
-        return extensMatrices;
-    }
-
-
-    ArrayList<String> getStrings() {
-        return strings;
     }
 
     public Matrix getResult() {
         return result;
     }
 
-    public int getTranspositions() {
+    int getTranspositions() {
         return transpositions;
     }
 }
