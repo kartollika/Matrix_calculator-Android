@@ -32,23 +32,24 @@ public class ChooseOperationActivity extends AppCompatActivity {
         } else if (oper > 7) {
             fragmentTransaction.replace(R.id.container, new Unaries()).commit();
             switchTab(1);
-
         }
     }
 
+    private void highlightTab(int id_Highlight, int id_Old) {
+        ((Button) findViewById(id_Highlight)).setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
+        findViewById(id_Highlight).setBackgroundColor(getResources().getColor(R.color.colorButtonOperation));
+
+        ((Button) findViewById(id_Old)).setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+        findViewById(id_Old).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+    }
+
     private void switchTab(int i) {
+        int tab1 = R.id.binaryBtn;
+        int tab2 = R.id.unaryBtn;
         if (i == 0) {
-            ((Button) findViewById(R.id.binaryBtn)).setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
-            findViewById(R.id.binaryBtn).setBackgroundColor(getResources().getColor(R.color.colorButtonOperation));
-
-            ((Button) findViewById(R.id.unaryBtn)).setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-            findViewById(R.id.unaryBtn).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            highlightTab(tab1, tab2);
         } else {
-            ((Button) findViewById(R.id.unaryBtn)).setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
-            findViewById(R.id.unaryBtn).setBackgroundColor(getResources().getColor(R.color.colorButtonOperation));
-
-            ((Button) findViewById(R.id.binaryBtn)).setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-            findViewById(R.id.binaryBtn).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            highlightTab(tab2, tab1);
         }
     }
 

@@ -1,5 +1,6 @@
 package kartollika.matrixcalc;
 
+import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,12 +11,13 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.widget.Toast;
 
-public class SettingsActivity extends AppCompatPreferenceActivity {
+public class SettingsActivity extends PreferenceActivity {
 
     private int versionClickCounter;
     private int vibrateTimeDefault = 75;
@@ -117,6 +119,30 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         });
 
         findPreference("version").setSummary(GlobalValues.version);
+
+        findPreference("checkUpdate").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getApplicationContext(), UpdateCheckerService.class);
+                intent.putExtra("fromSettings", true);
+                startService(intent);
+                return true;
+            }
+        });
+
+        final CheckBoxPreference notificationPreference = (CheckBoxPreference) findPreference("notifications");
+        notificationPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (!notificationPreference.isChecked()) {
+                    NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    if (nm != null) {
+                        nm.cancelAll();
+                    }
+                }
+                return true;
+            }
+        });
 
     }
 

@@ -14,4 +14,9 @@
         android:orderInCategory="101"
         android:title="@string/rate" />
 
+    <item
+        android:id="@+id/remove_ads"
+        android:orderInCategory="102"
+        android:title="@string/watch_ad"/>
+
 </menu>

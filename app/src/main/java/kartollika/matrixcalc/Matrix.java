@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.SparseArray;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Matrix implements Parcelable {
     boolean coefs;
     private int dimN;
@@ -164,7 +167,7 @@ public class Matrix implements Parcelable {
     protected Matrix(Parcel in) {
         dimN = in.readInt();
         dimM = in.readInt();
-        coefs = in.readByte() != 0;
+        coefs = in.readInt() != 0;
 
         valuesMap = new SparseArray<>();
 
@@ -179,7 +182,7 @@ public class Matrix implements Parcelable {
                 coefsMap.put(100_000 + i, (RationalNumber) in.readValue(RationalNumber.class.getClassLoader()));
             }
         }
-        isEdited = in.readByte() != 0;
+        isEdited = in.readInt() != 0;
     }
 
     @Override
@@ -199,7 +202,7 @@ public class Matrix implements Parcelable {
                 dest.writeValue(coefsMap.get(100_000 + i));
             }
         }
-        dest.writeByte((byte) (isEdited ? 1 : 0));
+        dest.writeInt(isEdited ? 1 : 0);
     }
 
     public static final Creator<Matrix> CREATOR = new Creator<Matrix>() {

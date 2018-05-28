@@ -1,6 +1,9 @@
 package kartollika.matrixcalc;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -18,14 +21,17 @@ import android.support.v7.view.menu.MenuView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.appodeal.ads.Appodeal;
+import com.appodeal.ads.BannerView;
+import com.appodeal.ads.RewardedVideoCallbacks;
 
 import kartollika.matrixcalc.startfragments.LinearSystemFragment;
 import kartollika.matrixcalc.startfragments.OperationsFragment;
+
+/*import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;*/
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences preferences;
     Boolean isCreated = false;
     private int curNightMode = AppCompatDelegate.getDefaultNightMode();
+    BannerView bannerView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -43,29 +50,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
 
             switch (item.getItemId()) {
-               /* case R.id.navigation_theory: {
-                    if (k == 0) {
-                        return true;
-                    } else {
-                        k = 0;
-                    }
-                    setChecked(0);
-                    *//*if (isCreated) {
-                        transaction.setCustomAnimations(R.anim.enter_left, R.anim.exit_right);
-                    }*//*
-                    transaction.replace(R.id.content, new TheoryFragment()).commit();
-                   // transaction.setCustomAnimations(0, 0);
-
-                    return true;
-                }*/
                 case R.id.navigation_operations: {
-                    /*if (isCreated) {
-                        if (k == 0) {
-                            transaction.setCustomAnimations(R.anim.enter_right, R.anim.exit_left);
-                        } else {
-                            transaction.setCustomAnimations(R.anim.enter_left, R.anim.exit_right);
-                        }
-                    }*/
                     if (k == 1) {
                         return true;
                     } else {
@@ -75,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
                     setChecked(1);
                     Fragment fragment = new OperationsFragment();
                     transaction.replace(R.id.content, fragment).commit();
-                    //    transaction.setCustomAnimations(0, 0);
 
                     return true;
                 }
@@ -85,13 +69,8 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         k = 2;
                     }
-                    /*if (isCreated) {
-                        transaction.setCustomAnimations(R.anim.enter_right, R.anim.exit_left);
-                    }*/
                     setChecked(2);
                     transaction.replace(R.id.content, new LinearSystemFragment()).commit();
-                    // transaction.setCustomAnimations(0, 0);
-
                     return true;
                 }
             }
@@ -111,18 +90,15 @@ public class MainActivity extends AppCompatActivity {
         }
         isCreated = false;
 
-        AdView adView = (AdView) findViewById(R.id.adView);
+        /*AdView adView = (AdView) findViewById(R.id.adView);
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 findViewById(R.id.adText).setVisibility(View.VISIBLE);
             }
         });
-
-        AdRequest adRequest;
-
-        adRequest = new AdRequest.Builder().addTestDevice("8161507EB49B3F33630CF2A74D743868").build();
-        adView.loadAd(adRequest);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("8161507EB49B3F33630CF2A74D743868").build();
+        adView.loadAd(adRequest);*/
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -148,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final Activity activity = this;
         switch (item.getItemId()) {
             case R.id.settings: {
                 Intent settings = new Intent(getApplicationContext(), SettingsActivity.class);
@@ -160,8 +137,34 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
-                    Toast.makeText(this, getResources().getString(R.string.gp_not_found), Toast.LENGTH_SHORT).show();
+                    Utilities.createShortToast(this, getResources().getString(R.string.gp_not_found)).show();
                 }
+                return true;
+            case R.id.remove_ads:
+                if (GlobalValues.canShowVideo()) {
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                            .setTitle("Убрать рекламные блоки")
+                            .setMessage("Посмотреть рекламный ролик, чтобы убрать баннеры на (2) часа")
+                            .setPositiveButton("Посмотреть", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loadVideo(activity);
+                                }
+                            })
+                            .setNegativeButton("Назад", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setCancelable(true)
+                            .create();
+                    dialog.show();
+                } else {
+                    Utilities.createLongToast(activity, "Баннеры до сих пор скрыты. Видео не может быть показано сейчас").show();
+                }
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -172,8 +175,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        loadAd(this);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+
         if (curNightMode != AppCompatDelegate.getDefaultNightMode()) {
             recreate();
             setChecked(k);
@@ -197,9 +207,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        getIntent().removeExtra("operation");
-        ((AdView) findViewById(R.id.adView)).destroy();
         super.onDestroy();
+        getIntent().removeExtra("operation");
+        Appodeal.destroy(Appodeal.BANNER);
+        // ((AdView) findViewById(R.id.adView)).destroy();
 
         preferences = getPrefs();
         SharedPreferences.Editor editor = preferences.edit();
@@ -208,7 +219,54 @@ public class MainActivity extends AppCompatActivity {
         } else {
             editor.putBoolean("isDarkmode", false);
         }
+        editor.putLong("AdTime", GlobalValues.getEstimatedTimeToWatchVideoAd());
         editor.apply();
+    }
+
+
+    public static void loadAd(Activity activity) {
+        if (!GlobalValues.canShowVideo()) {
+            activity.findViewById(R.id.adCard).setVisibility(View.GONE);
+            return;
+        } else {
+            activity.findViewById(R.id.adCard).setVisibility(View.VISIBLE);
+        }
+
+        if (BuildConfig.BUILD_TYPE == "debug") {
+            Appodeal.setTesting(true);
+        }
+
+        Appodeal.disableLocationPermissionCheck();
+        Appodeal.setBannerViewId(R.id.appodealBannerView);
+        Appodeal.setBannerAnimation(false);
+        Appodeal.initialize(activity, GlobalValues.appKey, Appodeal.BANNER_VIEW | Appodeal.REWARDED_VIDEO);
+        Appodeal.show(activity, Appodeal.BANNER_VIEW);
+    }
+
+    private void loadVideo(final Activity activity) {
+        Appodeal.setRewardedVideoCallbacks(new RewardedVideoCallbacks() {
+            @Override
+            public void onRewardedVideoLoaded() {
+            }
+
+            @Override
+            public void onRewardedVideoFailedToLoad() {
+            }
+
+            @Override
+            public void onRewardedVideoShown() {
+            }
+
+            @Override
+            public void onRewardedVideoFinished(int i, String s) {
+                GlobalValues.setEstimatedTimeToWatchVideo(System.currentTimeMillis() + 2 * 60 * 60 * 1000);
+            }
+
+            @Override
+            public void onRewardedVideoClosed(boolean b) {
+            }
+        });
+        Appodeal.show(activity, Appodeal.REWARDED_VIDEO);
     }
 
     private void setChecked(int n) {
@@ -216,9 +274,6 @@ public class MainActivity extends AppCompatActivity {
         MenuView.ItemView itemView;
 
         for (int i = 0; i < 3; ++i) {
-            // if (i == 0) {
-            //itemView = (MenuView.ItemView) navigation.findViewById(R.id.navigation_theory);
-            //} else if (i == 1) {
             if (i == 1) {
                 itemView = (MenuView.ItemView) navigation.findViewById(R.id.navigation_operations);
             } else {

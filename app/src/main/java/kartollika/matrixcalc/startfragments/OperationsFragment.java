@@ -274,12 +274,15 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
         }
 
         matrixA = ((GlobalValues) getActivity().getApplication()).matrices[0];
-        if (!matrixA.isEdited() || matrixA == null) {
+        if (matrixA == null) {
+            matrixA = new Matrix(null, defDimN, defDimM);
+        }
+        if (!matrixA.isEdited()) {
             matrixA = new Matrix(null, defDimN, defDimM);
         }
 
-        matrixB = ((GlobalValues) getActivity().getApplication()).matrices[1];
 
+        matrixB = ((GlobalValues) getActivity().getApplication()).matrices[1];
         if (matrixB == null) {
             matrixB = new Matrix(null, defDimN, defDimM);
         }

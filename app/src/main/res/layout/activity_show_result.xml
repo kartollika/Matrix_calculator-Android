@@ -16,6 +16,12 @@
         android:layout_marginTop="6dp"
         android:background="@color/colorCardBackground">
 
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
         <TextView
             android:id="@+id/adText"
             android:layout_width="wrap_content"
@@ -23,14 +29,18 @@
             android:layout_gravity="center"
             android:text="@string/adver"
             android:textColor="@color/colorTextCreateMatrix"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView2"
-            android:layout_width="wrap_content"
+        <com.appodeal.ads.BannerView
+            android:id="@+id/appodealBannerView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/ad_activity_result" />
+            android:visibility="gone">
+
+        </com.appodeal.ads.BannerView>
+
+
     </FrameLayout>
 
     <LinearLayout

@@ -65,8 +65,7 @@ public class EditTextDottable extends android.support.v7.widget.AppCompatEditTex
         int pos = getSelectionStart();
         try {
             setText(getText().delete(0, 1));
-        } catch (IndexOutOfBoundsException e) {
-        }
+        } catch (IndexOutOfBoundsException ignored) {}
         hasMinus = false;
         if (pos == 0) {
             setSelection(pos);

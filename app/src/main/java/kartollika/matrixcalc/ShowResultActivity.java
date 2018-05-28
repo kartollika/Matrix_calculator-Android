@@ -16,21 +16,26 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
+import com.appodeal.ads.Appodeal;
+
+import java.util.List;
+
+import kartollika.matrixcalc.operations.Stepable;
+import kartollika.matrixcalc.operations.binaries.ConstMultiply;
+import kartollika.matrixcalc.operations.binaries.Minus;
+import kartollika.matrixcalc.operations.binaries.Multiply;
+import kartollika.matrixcalc.operations.binaries.Sum;
+import kartollika.matrixcalc.operations.unaries.Determinant;
+import kartollika.matrixcalc.operations.unaries.Inverse;
+import kartollika.matrixcalc.operations.unaries.LinearSystem;
+import kartollika.matrixcalc.operations.unaries.Power;
+import kartollika.matrixcalc.operations.unaries.Transport;
+
+import static kartollika.matrixcalc.MainActivity.loadAd;
+
+/*import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
-import java.util.ArrayList;
-
-import kartollika.matrixcalc.binaryoperations.ConstMultiply;
-import kartollika.matrixcalc.binaryoperations.Minus;
-import kartollika.matrixcalc.binaryoperations.Multiply;
-import kartollika.matrixcalc.binaryoperations.Sum;
-import kartollika.matrixcalc.unaryoperations.Determinant;
-import kartollika.matrixcalc.unaryoperations.Inverse;
-import kartollika.matrixcalc.unaryoperations.LinearSystem;
-import kartollika.matrixcalc.unaryoperations.Power;
-import kartollika.matrixcalc.unaryoperations.Transport;
+import com.google.android.gms.ads.AdView;*/
 
 public class ShowResultActivity extends AppCompatActivity implements View.OnClickListener {
     Matrix result;
@@ -46,7 +51,16 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_result);
 
-        AdView adView = (AdView) findViewById(R.id.adView2);
+        //Appodeal.setTesting(true);
+        //Appodeal.disableLocationPermissionCheck();
+        //Appodeal.setSmartBanners(true);
+        //Appodeal.initialize(this, GlobalValues.appKey, Appodeal.BANNER);
+        // Appodeal.setTesting(true);
+        // Appodeal.setBannerViewId(R.id.appodealBannerViewResult);
+
+
+
+        /*AdView adView = (AdView) findViewById(R.id.adView2);
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdFailedToLoad(int errorCode) {
@@ -54,10 +68,8 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
             }
 
         });
-
-        AdRequest adRequest;
-        adRequest = new AdRequest.Builder().addTestDevice("8161507EB49B3F33630CF2A74D743868").build();
-        adView.loadAd(adRequest);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("8161507EB49B3F33630CF2A74D743868").build();
+        adView.loadAd(adRequest);*/
 
         if (!getResources().getBoolean(R.bool.isTablet)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -114,7 +126,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
                 oper = new ConstMultiply(inpMatrices[0],
                         new RationalNumber(
                                 getIntent().getLongExtra("constNumerator", 0),
-                                getIntent().getLongExtra("constDenominator", 0)
+                                getIntent().getLongExtra("constDenominator", 1)
                         )
                 );
                 result = oper.calc();
@@ -140,13 +152,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
                     oper = new Inverse(inpMatrices[0], getResources());
                     result = oper.calc();
                 } else {
-                    TextView tv = new TextView(this);
-                    ((CardView) findViewById(R.id.include)).addView(tv);
-                    tv.setGravity(Gravity.CENTER);
-                    tv.setTextSize(18);
-                    tv.setTextColor(getResources().getColor(R.color.colorContrast));
-                    tv.setText(getResources().getString(R.string.matrix_dnexist));
-                    findViewById(R.id.steps).setEnabled(false);
+                    displayMatrixNotExist();
                     return;
                 }
                 break;
@@ -164,13 +170,11 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
                 result = oper.calc();
                 break;
 
-
             case 16:
                 oper = new LinearSystem(inpMatrices[0], getResources());
                 result = oper.calc();
-                ArrayList<String> strings = (ArrayList<String>) ((kartollika.matrixcalc.unaryoperations.LinearSystem) oper).getObjects()[1];
+                List<String> strings = ((Stepable) oper).getStepStrings();
                 findViewById(R.id.hints).setVisibility(View.VISIBLE);
-                String s = getResources().getString(R.string.hasSolves) + "<br>";
                 if (!strings.get(strings.size() - 1).contains("=")) {
                     ((TextView) findViewById(R.id.hints)).setText(getResources().getString(R.string.nothing_to_solve));
                     findViewById(R.id.steps).setEnabled(false);
@@ -181,46 +185,61 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
         new Table(this, result);
     }
 
+    private void displayMatrixNotExist() {
+        TextView tv = new TextView(this);
+        ((CardView) findViewById(R.id.include)).addView(tv);
+        tv.setGravity(Gravity.CENTER);
+        tv.setTextSize(18);
+        tv.setTextColor(getResources().getColor(R.color.colorContrast));
+        tv.setText(getResources().getString(R.string.matrix_dnexist));
+        findViewById(R.id.steps).setEnabled(false);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_show_result, menu);
+        if (operation == 16) {
+            getMenuInflater().inflate(R.menu.menu_show_result_system, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_show_result, menu);
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (result == null) {
+            Toast toast = Utilities.createShortToast(this, getResources().getString(R.string.save_to_slot_Fail));
+            TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+            v.setGravity(Gravity.CENTER);
+            toast.show();
+        }
+
         switch (item.getItemId()) {
+            case R.id.saveAsSystem:
+                Utilities.createShortToast(this, getResources().getString(R.string.save_to_slot_success)).show();
+                result.setEdited();
+                GlobalValues.systemMatrix = result;
+                break;
+
             case R.id.saveAsA:
-                if (result != null) {
-                    Toast.makeText(this, getResources().getString(R.string.save_to_slot_1_success), Toast.LENGTH_SHORT).show();
-                    result.setEdited();
-                    ((GlobalValues) getApplication()).matrices[0] = result;
-                } else {
-                    Toast toast = Toast.makeText(this, getResources().getString(R.string.save_to_slot_Fail), Toast.LENGTH_SHORT);
-                    TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-                    v.setGravity(Gravity.CENTER);
-                    toast.show();
-                }
+                Utilities.createShortToast(this, getResources().getString(R.string.save_to_slot_1_success)).show();
+                result.setEdited();
+                GlobalValues.matrices[0] = result;
                 break;
             case R.id.saveAsB:
-                if (result != null) {
-                    Toast.makeText(this, getResources().getString(R.string.save_to_slot_2_success), Toast.LENGTH_SHORT).show();
-                    result.setEdited();
-                    ((GlobalValues) getApplication()).matrices[1] = result;
-                } else {
-                    Toast toast = Toast.makeText(this, getResources().getString(R.string.save_to_slot_Fail), Toast.LENGTH_SHORT);
-                    TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-                    v.setGravity(Gravity.CENTER);
-                    toast.show();
-                }
+                Utilities.createShortToast(this, getResources().getString(R.string.save_to_slot_2_success)).show();
+                result.setEdited();
+                GlobalValues.matrices[1] = result;
+
         }
         return true;
     }
 
     int step;
-    ArrayList<Matrix> matrices;
-    ArrayList<String> strings;
-    ArrayList<Matrix> extensMatrices;
+    List<Matrix> matrices;
+    List<String> strings;
+    List<Matrix> extensMatrices;
 
     @Override
     public void onClick(View view) {
@@ -261,7 +280,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    void activateStepByStep() {
+    private void activateStepByStepPanel() {
         findViewById(R.id.navigation).setVisibility(View.VISIBLE);
         findViewById(R.id.steps).setVisibility(View.GONE);
 
@@ -274,36 +293,17 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
         findViewById(R.id.next).setOnClickListener(this);
         findViewById(R.id.prev).setOnClickListener(this);
+    }
 
-        Object[] objects = null;
-        switch (operation) {
+    void activateStepByStep() {
+        activateStepByStepPanel();
+        Stepable operationSteppable = (Stepable) oper;
 
-                /* DETERMINANT */
-            case 8:
-            case 12:
-                objects = ((Determinant) oper).getObjects();
-                break;
-
-                /* INVERSE */
-            case 9:
-            case 13:
-                objects = ((Inverse) oper).getObjects();
-                extensMatrices = (ArrayList<Matrix>) objects[2];
-                break;
-
-                /* POWER */
-            case 11:
-            case 15:
-                objects = ((Power) oper).getObjects();
-                break;
-
-                /* SLAE */
-            case 16:
-                objects = ((LinearSystem) oper).getObjects();
+        matrices = operationSteppable.getStepMatrices();
+        strings = operationSteppable.getStepStrings();
+        if (operation == 13 || operation == 9) {
+            extensMatrices = operationSteppable.getStepExtensionMatrices();
         }
-
-        matrices = (ArrayList<Matrix>) objects[0];
-        strings = (ArrayList<String>) objects[1];
 
         step = 0;
         ((ProgressBar) findViewById(R.id.progressBar)).setProgress(0);
@@ -318,15 +318,25 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadAd(this);
+    }
+
+    @Override
     public void onBackPressed() {
         setResult(RESULT_OK);
         super.onBackPressed();
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ((AdView) findViewById(R.id.adView2)).destroy();
+        Appodeal.destroy(Appodeal.BANNER);
     }
 }

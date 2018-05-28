@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    int SPLASH_TIME_OUT = 1500;
+    final int SPLASH_TIME_OUT = 1500;
 
     @Override
     public void onBackPressed() {
@@ -25,7 +25,12 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         setContentView(R.layout.activity_splash);
+
+        Intent intent = new Intent(this, UpdateCheckerService.class);
+        intent.putExtra("notifsAtStartAllowed", preferences.getBoolean("notifications", true));
+        startService(intent);
 
         ((TextView) findViewById(R.id.version)).setText(GlobalValues.version);
 
@@ -35,9 +40,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (!((GlobalValues) getApplication()).thisSession) {
             ((GlobalValues) getApplication()).thisSession = true;
             for (int i = 0; i < 2; ++i) {
-                ((GlobalValues) getApplication()).matrices[i] = new Matrix(null, defDimN, defDimM);
+               GlobalValues.matrices[i] = new Matrix(null, defDimN, defDimM);
             }
-            ((GlobalValues) getApplication()).systemMatrix = new Matrix(null, null, defDimN, defDimM);
+            GlobalValues.systemMatrix = new Matrix(null, null, defDimN, defDimM);
         }
 
         new Handler().postDelayed(new Runnable() {

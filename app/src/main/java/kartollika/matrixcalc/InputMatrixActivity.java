@@ -119,19 +119,9 @@ public class InputMatrixActivity extends Activity implements
         this.mKeyboard = new Keyboard(this, R.xml.keys);
         mKeyboardView = (KeyboardView) findViewById(R.id.kv);
         mKeyboardView.setKeyboard(mKeyboard);
-        mKeyboardView.setOnKeyboardActionListener(new KeyboardView.OnKeyboardActionListener() {
+        mKeyboardView.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onPress(int i) {
-
-            }
-
-            @Override
-            public void onRelease(int i) {
-
-            }
-
-            @Override
-            public void onKey(int i, int[] ints) {
+            public boolean onKey(View v, int i, KeyEvent event) {
                 long l = System.currentTimeMillis();
                 EditTextDottable et;
                 KeyEvent keyEvent;
@@ -240,6 +230,131 @@ public class InputMatrixActivity extends Activity implements
                         keyEvent = new KeyEvent(l, l, 0, i, 0, 0, 0, 0, 6);
                         dispatchKeyEvent(keyEvent);
                 }
+                return true;
+            }
+        });
+
+        /*mKeyboardView.setOnKeyboardActionListener(new KeyboardView.OnKeyboardActionListener() {
+            @Override
+            public void onPress(int i) {
+
+            }
+
+            @Override
+            public void onRelease(int i) {
+
+            }
+
+            @Override
+            public void onKey(int i, int[] ints) {
+                long l = System.currentTimeMillis();
+                EditTextDottable et;
+                KeyEvent keyEvent;
+
+                switch (i) {
+                    *//* NEXT *//*
+                    case Keyboard.KEYCODE_DONE:
+                        try {
+                            et = (EditTextDottable) getCurrentFocus();
+                        } catch (ClassCastException e) {
+                            break;
+                        }
+
+                        try {
+                            findViewById(et.getNextFocusForwardId()).requestFocus();
+                        } catch (NullPointerException e) {
+                            break;
+                        }
+                        break;
+
+                        *//* MINUS PLUS *//*
+                    case 69:
+                        try {
+                            et = (EditTextDottable) getCurrentFocus();
+                        } catch (ClassCastException e) {
+                            break;
+                        }
+
+                        if (et != null) {
+                            if (et.getText().toString().contains("-")) {
+                                et.delMinus();
+                            } else {
+                                et.addMinus();
+                            }
+                        }
+                        break;
+
+                        *//* DOT / DIVIDER *//*
+                    case 56:
+                        try {
+                            et = (EditTextDottable) getCurrentFocus();
+                        } catch (ClassCastException e) {
+                            break;
+                        }
+                        if (et != null) {
+                            String s = et.getText().toString();
+                            if (s.contains("/")) {
+                                et.setDivider(true);
+                                et.setDot(false);
+                            } else if (s.contains(".")) {
+                                et.setDivider(false);
+                                et.setDot(true);
+                            } else {
+                                et.setDot(false);
+                                et.setDivider(false);
+                            }
+
+                            if (et.isHasDot() || et.isHasDivider()) {
+                                if (s.charAt(et.getSelectionStart() - 1) == '.') {
+                                    et.replaceDot();
+                                    break;
+                                } else if (s.charAt(et.getSelectionStart() - 1) == '/') {
+                                    et.replaceDivider();
+                                    break;
+                                }
+                            }
+                            if (!et.isHasDot() && !et.isHasDivider()) {
+                                et.addDot();
+                            }
+                        }
+                        break;
+
+                        *//* DELETE *//*
+                    case 67:
+                        try {
+                            et = (EditTextDottable) getCurrentFocus();
+                        } catch (ClassCastException e) {
+                            break;
+                        }
+
+                        Editable s = et.getText();
+                        if (et.getSelectionStart() == 0 || et.getText().length() == 0) {
+                            break;
+                        }
+
+                        if (s.charAt(et.getSelectionStart() - 1) == '.') {
+                            et.delDot();
+                            break;
+                        }
+
+                        if (s.charAt(et.getSelectionStart() - 1) == '-') {
+                            et.delMinus();
+                            break;
+                        }
+
+                        if (s.charAt(et.getSelectionStart() - 1) == '/') {
+                            et.delDivider();
+                            break;
+                        }
+
+                        keyEvent = new KeyEvent(l, l, 0, i, 0, 0, 0, 0, 6);
+                        dispatchKeyEvent(keyEvent);
+                        break;
+
+                    default:
+                        keyEvent = new KeyEvent(l, l, 0, i, 0, 0, 0, 0, 6);
+                        dispatchKeyEvent(keyEvent);
+                }
             }
 
             @Override
@@ -266,7 +381,7 @@ public class InputMatrixActivity extends Activity implements
             public void swipeUp() {
 
             }
-        });
+        });*/
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         isNotificationRequired = settings.getBoolean("isNotifAllScreenRequired", true);
