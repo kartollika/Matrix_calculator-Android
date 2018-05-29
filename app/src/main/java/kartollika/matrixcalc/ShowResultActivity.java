@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -318,7 +320,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
     private void initAds() {
         attemptGrantPermissionLocation();
-        attemptGrantPermissionWriteExternalStorage();
+        //attemptGrantPermissionWriteExternalStorage();
         AdUtils.loadAd(this);
     }
 
@@ -330,6 +332,22 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
             }
             PermissionRequestUtil.requestPermission(this,
                     new String[]{WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case WRITE_EXTERNAL_STORAGE_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    attemptGrantPermissionLocation();
+                }
+                break;
+            case ACCESS_COARSE_LOCATION_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    attemptGrantPermissionWriteExternalStorage();
+                }
         }
     }
 
