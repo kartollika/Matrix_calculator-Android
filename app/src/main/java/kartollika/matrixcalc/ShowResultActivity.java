@@ -1,7 +1,12 @@
 package kartollika.matrixcalc;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.Html;
@@ -31,7 +36,10 @@ import kartollika.matrixcalc.operations.unaries.LinearSystem;
 import kartollika.matrixcalc.operations.unaries.Power;
 import kartollika.matrixcalc.operations.unaries.Transport;
 
-import static kartollika.matrixcalc.MainActivity.loadAd;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static kartollika.matrixcalc.PermissionRequestUtil.ACCESS_COARSE_LOCATION_CODE;
+import static kartollika.matrixcalc.PermissionRequestUtil.WRITE_EXTERNAL_STORAGE_CODE;
+import static kartollika.matrixcalc.PermissionRequestUtil.requestPermission;
 
 /*import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -50,26 +58,6 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_result);
-
-        //Appodeal.setTesting(true);
-        //Appodeal.disableLocationPermissionCheck();
-        //Appodeal.setSmartBanners(true);
-        //Appodeal.initialize(this, GlobalValues.appKey, Appodeal.BANNER);
-        // Appodeal.setTesting(true);
-        // Appodeal.setBannerViewId(R.id.appodealBannerViewResult);
-
-
-
-        /*AdView adView = (AdView) findViewById(R.id.adView2);
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                findViewById(R.id.adText).setVisibility(View.VISIBLE);
-            }
-
-        });
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("8161507EB49B3F33630CF2A74D743868").build();
-        adView.loadAd(adRequest);*/
 
         if (!getResources().getBoolean(R.bool.isTablet)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -325,7 +313,72 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        loadAd(this);
+        initAds();
+    }
+
+    private void initAds() {
+        attemptGrantPermissionLocation();
+        attemptGrantPermissionWriteExternalStorage();
+        AdUtils.loadAd(this);
+    }
+
+    private void attemptGrantPermissionWriteExternalStorage() {
+        if (!PermissionRequestUtil.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                showPermissionExternalStorageWarningDialog();
+            }
+            PermissionRequestUtil.requestPermission(this,
+                    new String[]{WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_CODE);
+        }
+    }
+
+    private void attemptGrantPermissionLocation() {
+        if (!PermissionRequestUtil.checkPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                showPermissionExternalStorageWarningDialog();
+            } else {
+                PermissionRequestUtil.requestPermission(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_CODE);
+            }
+        }
+    }
+
+    private void showPermissionExternalStorageWarningDialog() {
+        final Activity activity = this;
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.permWarning)
+                .setMessage(R.string.externalstoragewarning)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        requestPermission(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                WRITE_EXTERNAL_STORAGE_CODE);
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        dialog.show();
+    }
+
+    private void showPermissionLocationWarningDialog() {
+        final Activity activity = this;
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.permWarning)
+                .setMessage(R.string.locationwarning)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        requestPermission(activity, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                                ACCESS_COARSE_LOCATION_CODE);
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        dialog.show();
     }
 
     @Override

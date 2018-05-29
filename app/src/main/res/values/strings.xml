@@ -58,6 +58,7 @@
     <string name="setup_dims">Настроить размерности</string>
     <string name="dimensions">Размерности</string>
 
+    <string name="confirm">Хорошо</string>
     <string name="choose_one">Выберите нужную операцию</string>
 
     <string name="input_const">Введите значение константы</string>
@@ -166,4 +167,8 @@
     <string name="message_about_removing_banners">Посмотреть рекламный ролик, чтобы убрать баннеры на (2) часа</string>
     <string name="watch">Посмотреть</string>
     <string name="error_try_watch_ad_again">Баннеры до сих пор скрыты. Видео не может быть показано сейчас</string>
+    
+    <string name="permWarning">Дать разрешение</string>
+    <string name="locationwarning">Определение локации позволит подбирать рекламу для вас более точно\nА также вы поддержите дальнейшее развитие приложения и других проектов</string>
+    <string name="externalstoragewarning">Запись на память необходима для стабильной работы рекламы в приложении\nИспользуя рекламу, вы поддерживаете разработчика и работу над проектами</string>
 </resources>

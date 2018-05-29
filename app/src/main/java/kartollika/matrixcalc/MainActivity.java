@@ -1,5 +1,6 @@
 package kartollika.matrixcalc;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -7,11 +8,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,18 +23,17 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.menu.MenuView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Toast;
 
 import com.appodeal.ads.Appodeal;
-import com.appodeal.ads.BannerView;
-import com.appodeal.ads.RewardedVideoCallbacks;
 
 import kartollika.matrixcalc.startfragments.LinearSystemFragment;
 import kartollika.matrixcalc.startfragments.OperationsFragment;
 
-/*import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;*/
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static kartollika.matrixcalc.PermissionRequestUtil.ACCESS_COARSE_LOCATION_CODE;
+import static kartollika.matrixcalc.PermissionRequestUtil.WRITE_EXTERNAL_STORAGE_CODE;
+import static kartollika.matrixcalc.PermissionRequestUtil.requestPermission;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -142,15 +144,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.remove_ads:
                 if (GlobalValues.canShowVideo()) {
                     AlertDialog dialog = new AlertDialog.Builder(this)
-                            .setTitle(getResources().getString(R.string.remove_banners))
-                            .setMessage(getResources().getString(R.string.message_about_removing_banners))
+                            .setTitle(R.string.remove_banners)
+                            .setMessage(R.string.message_about_removing_banners)
                             .setPositiveButton(getResources().getString(R.string.watch), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    loadVideo(activity);
+                                    AdUtils.loadVideo(activity);
                                 }
                             })
-                            .setNegativeButton(getResources().getString(R.string.back), new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -177,7 +179,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        loadAd(this);
+        initAds();
+    }
+
+    private void initAds() {
+        attemptGrantPermissionLocation();
+       // attemptGrantPermissionWriteExternalStorage();
+        AdUtils.loadAd(this);
     }
 
     @Override
@@ -206,6 +214,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case WRITE_EXTERNAL_STORAGE_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    attemptGrantPermissionLocation();
+                }
+                break;
+            case ACCESS_COARSE_LOCATION_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    attemptGrantPermissionWriteExternalStorage();
+                }
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         getIntent().removeExtra("operation");
@@ -220,58 +244,6 @@ public class MainActivity extends AppCompatActivity {
         }
         editor.putLong("AdTime", GlobalValues.getEstimatedTimeToWatchVideoAd());
         editor.apply();
-    }
-
-
-    public static void loadAd(Activity activity) {
-        if (!GlobalValues.canShowVideo()) {
-            activity.findViewById(R.id.adCard).setVisibility(View.GONE);
-            return;
-        } else {
-            activity.findViewById(R.id.adCard).setVisibility(View.VISIBLE);
-        }
-
-        if (BuildConfig.BUILD_TYPE == "debug") {
-            Appodeal.setTesting(true);
-        }
-
-        Appodeal.disableLocationPermissionCheck();
-        Appodeal.setBannerViewId(R.id.appodealBannerView);
-        Appodeal.setBannerAnimation(false);
-        Appodeal.initialize(activity, GlobalValues.appKey, Appodeal.BANNER_VIEW
-                | Appodeal.REWARDED_VIDEO);
-        Appodeal.show(activity, Appodeal.BANNER_VIEW);
-    }
-
-    private void loadVideo(final Activity activity) {
-        Appodeal.setRewardedVideoCallbacks(new RewardedVideoCallbacks() {
-            @Override
-            public void onRewardedVideoLoaded() {
-            }
-
-            @Override
-            public void onRewardedVideoFailedToLoad() {
-                Utilities.createShortToast(getApplicationContext(),
-                        getResources().getString(R.string.failed_watch_ad_connection_problem)).show();
-            }
-
-            @Override
-            public void onRewardedVideoShown() {
-            }
-
-            @Override
-            public void onRewardedVideoFinished(int i, String s) {
-                GlobalValues.setEstimatedTimeToWatchVideo(System.currentTimeMillis()
-                        + GlobalValues.ESTIMATED_TIME);
-            }
-
-            @Override
-            public void onRewardedVideoClosed(boolean b) {
-                Utilities.createShortToast(getApplicationContext(),
-                        getResources().getString(R.string.succ_blocked_banners)).show();
-            }
-        });
-        Appodeal.show(activity, Appodeal.REWARDED_VIDEO);
     }
 
     private void setChecked(int n) {
@@ -292,5 +264,65 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void attemptGrantPermissionWriteExternalStorage() {
+        if (!PermissionRequestUtil.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                showPermissionExternalStorageWarningDialog();
+            } else {
+                PermissionRequestUtil.requestPermission(this,
+                        new String[]{WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_CODE);
+            }
+        }
+    }
+
+    private void attemptGrantPermissionLocation() {
+        if (!PermissionRequestUtil.checkPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                showPermissionLocationWarningDialog();
+            } else {
+                PermissionRequestUtil.requestPermission(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_CODE);
+            }
+        }
+    }
+
+    private void showPermissionExternalStorageWarningDialog() {
+        final Activity activity = this;
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.permWarning)
+                .setMessage(R.string.externalstoragewarning)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        requestPermission(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                WRITE_EXTERNAL_STORAGE_CODE);
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        dialog.show();
+    }
+
+    private void showPermissionLocationWarningDialog() {
+        final Activity activity = this;
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.permWarning)
+                .setMessage(R.string.locationwarning)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        requestPermission(activity, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                                ACCESS_COARSE_LOCATION_CODE);
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        dialog.show();
     }
 }
