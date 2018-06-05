@@ -3,7 +3,6 @@ package kartollika.matrixcalc.operations;
 import android.content.res.Resources;
 
 import kartollika.matrixcalc.Matrix;
-import kartollika.matrixcalc.Operation;
 
 public abstract class UO extends Operation {
     private Resources resources;

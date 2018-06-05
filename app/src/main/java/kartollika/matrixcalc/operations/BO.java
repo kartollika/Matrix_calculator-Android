@@ -1,7 +1,6 @@
 package kartollika.matrixcalc.operations;
 
 import kartollika.matrixcalc.Matrix;
-import kartollika.matrixcalc.Operation;
 import kartollika.matrixcalc.RationalNumber;
 
 public abstract class BO extends Operation {

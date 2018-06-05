@@ -21,7 +21,8 @@
             android:id="@+id/adView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="ca-app-pub-9193176037122415/5469213094" />
 
         <TextView
             android:id="@+id/adText"
@@ -33,17 +34,7 @@
             android:textColor="@color/colorTextCreateMatrix"
             android:textSize="14sp"
             android:visibility="gone"
-            tools:visibility="visible"/>
-
-        <com.appodeal.ads.BannerView
-            android:id="@+id/appodealBannerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-        </com.appodeal.ads.BannerView>
-
+            tools:visibility="visible" />
 
     </FrameLayout>
 

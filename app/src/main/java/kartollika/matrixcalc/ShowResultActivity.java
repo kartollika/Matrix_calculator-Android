@@ -1,13 +1,8 @@
 package kartollika.matrixcalc;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
+import android.graphics.drawable.AdaptiveIconDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -23,10 +18,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appodeal.ads.Appodeal;
+import com.google.android.gms.ads.AdView;
 
 import java.util.List;
 
+import kartollika.matrixcalc.operations.Operation;
 import kartollika.matrixcalc.operations.Stepable;
 import kartollika.matrixcalc.operations.binaries.ConstMultiply;
 import kartollika.matrixcalc.operations.binaries.Minus;
@@ -38,20 +34,11 @@ import kartollika.matrixcalc.operations.unaries.LinearSystem;
 import kartollika.matrixcalc.operations.unaries.Power;
 import kartollika.matrixcalc.operations.unaries.Transport;
 
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static kartollika.matrixcalc.PermissionRequestUtil.ACCESS_COARSE_LOCATION_CODE;
-import static kartollika.matrixcalc.PermissionRequestUtil.WRITE_EXTERNAL_STORAGE_CODE;
-import static kartollika.matrixcalc.PermissionRequestUtil.requestPermission;
-
-/*import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;*/
-
 public class ShowResultActivity extends AppCompatActivity implements View.OnClickListener {
-    Matrix result;
-    int operation;
-
-    Operation oper;
+    private Matrix result;
+    private int operation;
+    private Operation oper;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +47,10 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_result);
+
+        adView = findViewById(R.id.adView);
+
+        AdUtils.initBanner(this);
 
         if (!getResources().getBoolean(R.bool.isTablet)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -76,14 +67,14 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
         operation = getIntent().getIntExtra("operation", -1);
 
         if (operation > 7 && operation != 10 && operation != 14) {
-            Button stepByStep = (Button) findViewById(R.id.steps);
-            TextView hints = (TextView) findViewById(R.id.hints);
+            Button stepByStep = findViewById(R.id.steps);
+            TextView hints = findViewById(R.id.hints);
             hints.setMovementMethod(new ScrollingMovementMethod());
             stepByStep.setVisibility(View.VISIBLE);
             stepByStep.setText(getResources().getString(R.string.step_by_step));
             stepByStep.setOnClickListener(this);
 
-            CardView include = (CardView) findViewById(R.id.include);
+            CardView include = findViewById(R.id.include);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             layoutParams.setMargins(8, 0, 8, 4);
@@ -200,7 +191,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem item) {
         if (result == null) {
             Toast toast = Utilities.createShortToast(this, getResources().getString(R.string.save_to_slot_Fail));
-            TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+            TextView v = toast.getView().findViewById(android.R.id.message);
             v.setGravity(Gravity.CENTER);
             toast.show();
         }
@@ -209,18 +200,18 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
             case R.id.saveAsSystem:
                 Utilities.createShortToast(this, getResources().getString(R.string.save_to_slot_success)).show();
                 result.setEdited();
-                GlobalValues.systemMatrix = result;
+                App.systemMatrix = result;
                 break;
 
             case R.id.saveAsA:
                 Utilities.createShortToast(this, getResources().getString(R.string.save_to_slot_1_success)).show();
                 result.setEdited();
-                GlobalValues.matrices[0] = result;
+                App.matrices[0] = result;
                 break;
             case R.id.saveAsB:
                 Utilities.createShortToast(this, getResources().getString(R.string.save_to_slot_2_success)).show();
                 result.setEdited();
-                GlobalValues.matrices[1] = result;
+                App.matrices[1] = result;
 
         }
         return true;
@@ -253,7 +244,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
                 break;
 
             case R.id.next:
-                ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                ProgressBar progressBar = findViewById(R.id.progressBar);
                 if (step < progressBar.getMax()) {
                     progressBar.setProgress(++step);
                     ((TextView) findViewById(R.id.hints)).setText(Html.fromHtml(strings.get(step)));
@@ -315,88 +306,6 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        initAds();
-    }
-
-    private void initAds() {
-        attemptGrantPermissionLocation();
-        //attemptGrantPermissionWriteExternalStorage();
-        AdUtils.loadAd(this);
-    }
-
-    private void attemptGrantPermissionWriteExternalStorage() {
-        if (!PermissionRequestUtil.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                showPermissionExternalStorageWarningDialog();
-            }
-            PermissionRequestUtil.requestPermission(this,
-                    new String[]{WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_CODE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case WRITE_EXTERNAL_STORAGE_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    attemptGrantPermissionLocation();
-                }
-                break;
-            case ACCESS_COARSE_LOCATION_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    attemptGrantPermissionWriteExternalStorage();
-                }
-        }
-    }
-
-    private void attemptGrantPermissionLocation() {
-        if (!PermissionRequestUtil.checkPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                showPermissionExternalStorageWarningDialog();
-            } else {
-                PermissionRequestUtil.requestPermission(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_CODE);
-            }
-        }
-    }
-
-    private void showPermissionExternalStorageWarningDialog() {
-        final Activity activity = this;
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.permWarning)
-                .setMessage(R.string.externalstoragewarning)
-                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        requestPermission(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                WRITE_EXTERNAL_STORAGE_CODE);
-                    }
-                })
-                .setCancelable(false)
-                .create();
-        dialog.show();
-    }
-
-    private void showPermissionLocationWarningDialog() {
-        final Activity activity = this;
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.permWarning)
-                .setMessage(R.string.locationwarning)
-                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        requestPermission(activity, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                                ACCESS_COARSE_LOCATION_CODE);
-                    }
-                })
-                .setCancelable(false)
-                .create();
-        dialog.show();
     }
 
     @Override
@@ -408,6 +317,6 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Appodeal.destroy(Appodeal.BANNER);
+        AdUtils.destroyBanner(adView);
     }
 }

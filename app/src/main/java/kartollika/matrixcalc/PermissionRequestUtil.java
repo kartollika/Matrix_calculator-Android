@@ -8,15 +8,22 @@ import android.support.v4.content.ContextCompat;
 
 public final class PermissionRequestUtil {
 
-    static final int WRITE_EXTERNAL_STORAGE_CODE = 0;
-    static final int ACCESS_COARSE_LOCATION_CODE = 1;
+    public final static int LOCATION_PERMISSION_CODE = 1;
+    public final static int PERMISSIONS_ALL = 123;
 
-    public static void requestPermission(Activity activity, String[] permissions, int code) {
-        ActivityCompat.requestPermissions(activity, permissions, code);
+    public static void requestPermissions(Activity activity, String[] permissions, int code) {
+        if (!checkPermissions(activity.getApplicationContext(), permissions)) {
+            ActivityCompat.requestPermissions(activity, permissions, code);
+        }
     }
 
-    public static boolean checkPermission(Context context, String permission) {
-        return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
+    public static boolean checkPermissions(Context context, String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

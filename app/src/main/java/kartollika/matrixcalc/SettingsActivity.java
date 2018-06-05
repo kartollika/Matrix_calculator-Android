@@ -118,7 +118,7 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        findPreference("version").setSummary(GlobalValues.version);
+        findPreference("version").setSummary(App.version);
 
         findPreference("checkUpdate").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

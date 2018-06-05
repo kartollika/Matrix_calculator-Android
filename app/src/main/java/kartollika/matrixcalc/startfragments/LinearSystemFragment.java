@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import kartollika.matrixcalc.AppRater;
-import kartollika.matrixcalc.GlobalValues;
+import kartollika.matrixcalc.App;
 import kartollika.matrixcalc.InputMatrixActivity;
 import kartollika.matrixcalc.MainActivity;
 import kartollika.matrixcalc.Matrix;
@@ -80,7 +80,7 @@ public class LinearSystemFragment extends Fragment implements View.OnClickListen
         int defDimN = Integer.parseInt(preferences.getString("defDimN", "3"));
         int defDimM = Integer.parseInt(preferences.getString("defDimM", "3"));
 
-        matrix = ((GlobalValues) getActivity().getApplication()).systemMatrix;
+        matrix = ((App) getActivity().getApplication()).systemMatrix;
 
         if (matrix == null) {
             matrix = new Matrix(null, null, defDimN, defDimM);
@@ -99,7 +99,7 @@ public class LinearSystemFragment extends Fragment implements View.OnClickListen
     @Override
     public void onDetach() {
         super.onDetach();
-        ((GlobalValues) getActivity().getApplication()).systemMatrix = matrix;
+        ((App) getActivity().getApplication()).systemMatrix = matrix;
     }
 
     @Override
@@ -121,7 +121,7 @@ public class LinearSystemFragment extends Fragment implements View.OnClickListen
                         } else {
                             return;
                         }
-                        ((GlobalValues) getActivity().getApplication()).systemMatrix = matrix;
+                        ((App) getActivity().getApplication()).systemMatrix = matrix;
                     }
                     break;
 

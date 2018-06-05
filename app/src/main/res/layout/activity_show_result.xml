@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context=".ShowResultActivity"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    tools:context=".ShowResultActivity">
 
     <FrameLayout
         android:id="@+id/adCard"
@@ -17,10 +17,11 @@
         android:background="@color/colorCardBackground">
 
         <com.google.android.gms.ads.AdView
-            android:id="@+id/adView2"
+            android:id="@+id/adView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="ca-app-pub-9193176037122415/1668557125"/>
 
         <TextView
             android:id="@+id/adText"
@@ -30,16 +31,7 @@
             android:text="@string/adver"
             android:textColor="@color/colorTextCreateMatrix"
             android:visibility="gone"
-            tools:visibility="visible"/>
-
-        <com.appodeal.ads.BannerView
-            android:id="@+id/appodealBannerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-        </com.appodeal.ads.BannerView>
-
+            tools:visibility="visible" />
 
     </FrameLayout>
 
@@ -121,11 +113,9 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/progressBar"
             android:layout_toStartOf="@+id/dummy"
+            android:background="@drawable/ripple_activ_steps"
             android:text="@string/previous"
-            android:visibility="gone"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/dummy"
-            android:background="@drawable/ripple_activ_steps" />
+            android:visibility="gone" />
 
         <Space
             android:id="@+id/dummy"
@@ -142,12 +132,9 @@
             android:layout_alignTop="@+id/prev"
             android:layout_toEndOf="@+id/prev"
             android:layout_toStartOf="@+id/prev"
+            android:background="@drawable/ripple_activ_steps"
             android:text="@string/next"
-            android:visibility="gone"
-            android:layout_alignParentRight="true"
-            android:layout_toLeftOf="@+id/prev"
-            android:layout_toRightOf="@+id/prev"
-            android:background="@drawable/ripple_activ_steps" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 

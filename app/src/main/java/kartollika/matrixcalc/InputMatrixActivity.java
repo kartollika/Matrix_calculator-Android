@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.util.SparseArray;
@@ -60,7 +61,7 @@ public class InputMatrixActivity extends Activity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
+        //setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_input_matrix);
@@ -70,18 +71,18 @@ public class InputMatrixActivity extends Activity implements
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        Button row_Minus = (Button) findViewById(R.id.row_minus);
-        Button row_plus = (Button) findViewById(R.id.row_plus);
-        Button column_minus = (Button) findViewById(R.id.column_minus);
-        Button column_plus = (Button) findViewById(R.id.column_plus);
-        Button createE = (Button) findViewById(R.id.createE);
-        Button create0 = (Button) findViewById(R.id.create0);
-        Button saveButton = (Button) findViewById(R.id.saveButton);
-        Button rowCount = (Button) findViewById(R.id.rowCount);
-        Button columnCount = (Button) findViewById(R.id.columnCount);
-        Button hideUpperCard = (Button) findViewById(R.id.hideCard);
+        Button row_Minus = findViewById(R.id.row_minus);
+        Button row_plus = findViewById(R.id.row_plus);
+        Button column_minus = findViewById(R.id.column_minus);
+        Button column_plus = findViewById(R.id.column_plus);
+        Button createE = findViewById(R.id.createE);
+        Button create0 = findViewById(R.id.create0);
+        Button saveButton = findViewById(R.id.saveButton);
+        Button rowCount = findViewById(R.id.rowCount);
+        Button columnCount = findViewById(R.id.columnCount);
+        Button hideUpperCard = findViewById(R.id.hideCard);
 
-        HorizontalScrollView hsv = (HorizontalScrollView) findViewById(R.id.horScroll);
+        HorizontalScrollView hsv = findViewById(R.id.horScroll);
         hsv.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         hsv.setFocusable(true);
         hsv.setFocusableInTouchMode(true);
@@ -93,7 +94,7 @@ public class InputMatrixActivity extends Activity implements
             }
         });
 
-        ScrollView sv = (ScrollView) findViewById(R.id.verScroll);
+        ScrollView sv = findViewById(R.id.verScroll);
         sv.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
         sv.setFocusable(true);
         sv.setFocusableInTouchMode(true);
@@ -117,11 +118,22 @@ public class InputMatrixActivity extends Activity implements
         hideUpperCard.setOnClickListener(this);
 
         this.mKeyboard = new Keyboard(this, R.xml.keys);
-        mKeyboardView = (KeyboardView) findViewById(R.id.kv);
+        mKeyboardView = findViewById(R.id.kv);
         mKeyboardView.setKeyboard(mKeyboard);
-        mKeyboardView.setOnKeyListener(new View.OnKeyListener() {
+
+        mKeyboardView.setOnKeyboardActionListener(new KeyboardView.OnKeyboardActionListener() {
             @Override
-            public boolean onKey(View v, int i, KeyEvent event) {
+            public void onPress(int i) {
+
+            }
+
+            @Override
+            public void onRelease(int i) {
+
+            }
+
+            @Override
+            public void onKey(int i, int[] ints) {
                 long l = System.currentTimeMillis();
                 EditTextDottable et;
                 KeyEvent keyEvent;
@@ -142,7 +154,7 @@ public class InputMatrixActivity extends Activity implements
                         }
                         break;
 
-                        /* MINUS PLUS */
+                    /* MINUS PLUS */
                     case 69:
                         try {
                             et = (EditTextDottable) getCurrentFocus();
@@ -159,7 +171,7 @@ public class InputMatrixActivity extends Activity implements
                         }
                         break;
 
-                        /* DOT / DIVIDER */
+                    /* DOT / DIVIDER */
                     case 56:
                         try {
                             et = (EditTextDottable) getCurrentFocus();
@@ -194,132 +206,7 @@ public class InputMatrixActivity extends Activity implements
                         }
                         break;
 
-                        /* DELETE */
-                    case 67:
-                        try {
-                            et = (EditTextDottable) getCurrentFocus();
-                        } catch (ClassCastException e) {
-                            break;
-                        }
-
-                        Editable s = et.getText();
-                        if (et.getSelectionStart() == 0 || et.getText().length() == 0) {
-                            break;
-                        }
-
-                        if (s.charAt(et.getSelectionStart() - 1) == '.') {
-                            et.delDot();
-                            break;
-                        }
-
-                        if (s.charAt(et.getSelectionStart() - 1) == '-') {
-                            et.delMinus();
-                            break;
-                        }
-
-                        if (s.charAt(et.getSelectionStart() - 1) == '/') {
-                            et.delDivider();
-                            break;
-                        }
-
-                        keyEvent = new KeyEvent(l, l, 0, i, 0, 0, 0, 0, 6);
-                        dispatchKeyEvent(keyEvent);
-                        break;
-
-                    default:
-                        keyEvent = new KeyEvent(l, l, 0, i, 0, 0, 0, 0, 6);
-                        dispatchKeyEvent(keyEvent);
-                }
-                return true;
-            }
-        });
-
-        /*mKeyboardView.setOnKeyboardActionListener(new KeyboardView.OnKeyboardActionListener() {
-            @Override
-            public void onPress(int i) {
-
-            }
-
-            @Override
-            public void onRelease(int i) {
-
-            }
-
-            @Override
-            public void onKey(int i, int[] ints) {
-                long l = System.currentTimeMillis();
-                EditTextDottable et;
-                KeyEvent keyEvent;
-
-                switch (i) {
-                    *//* NEXT *//*
-                    case Keyboard.KEYCODE_DONE:
-                        try {
-                            et = (EditTextDottable) getCurrentFocus();
-                        } catch (ClassCastException e) {
-                            break;
-                        }
-
-                        try {
-                            findViewById(et.getNextFocusForwardId()).requestFocus();
-                        } catch (NullPointerException e) {
-                            break;
-                        }
-                        break;
-
-                        *//* MINUS PLUS *//*
-                    case 69:
-                        try {
-                            et = (EditTextDottable) getCurrentFocus();
-                        } catch (ClassCastException e) {
-                            break;
-                        }
-
-                        if (et != null) {
-                            if (et.getText().toString().contains("-")) {
-                                et.delMinus();
-                            } else {
-                                et.addMinus();
-                            }
-                        }
-                        break;
-
-                        *//* DOT / DIVIDER *//*
-                    case 56:
-                        try {
-                            et = (EditTextDottable) getCurrentFocus();
-                        } catch (ClassCastException e) {
-                            break;
-                        }
-                        if (et != null) {
-                            String s = et.getText().toString();
-                            if (s.contains("/")) {
-                                et.setDivider(true);
-                                et.setDot(false);
-                            } else if (s.contains(".")) {
-                                et.setDivider(false);
-                                et.setDot(true);
-                            } else {
-                                et.setDot(false);
-                                et.setDivider(false);
-                            }
-
-                            if (et.isHasDot() || et.isHasDivider()) {
-                                if (s.charAt(et.getSelectionStart() - 1) == '.') {
-                                    et.replaceDot();
-                                    break;
-                                } else if (s.charAt(et.getSelectionStart() - 1) == '/') {
-                                    et.replaceDivider();
-                                    break;
-                                }
-                            }
-                            if (!et.isHasDot() && !et.isHasDivider()) {
-                                et.addDot();
-                            }
-                        }
-                        break;
-
-                        *//* DELETE *//*
+                    /* DELETE */
                     case 67:
                         try {
                             et = (EditTextDottable) getCurrentFocus();
@@ -381,7 +268,7 @@ public class InputMatrixActivity extends Activity implements
             public void swipeUp() {
 
             }
-        });*/
+        });
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         isNotificationRequired = settings.getBoolean("isNotifAllScreenRequired", true);
@@ -398,8 +285,8 @@ public class InputMatrixActivity extends Activity implements
             matrix = intent.getExtras().getParcelable("matrixSys");
         }
 
-        rows_cnt = ((TextView) findViewById(R.id.rows));
-        cols_cnt = ((TextView) findViewById(R.id.columns));
+        rows_cnt = findViewById(R.id.rows);
+        cols_cnt = findViewById(R.id.columns);
 
         rows_cnt.setText(getResources().getString(R.string.count_of_rows, matrix.getRowCount()));
         cols_cnt.setText(getResources().getString(R.string.count_of_columns, matrix.getColumnCount()));
@@ -412,7 +299,7 @@ public class InputMatrixActivity extends Activity implements
         hideUpperCard.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                final ViewGroup rl = (ViewGroup) findViewById(R.id.rl1);
+                final ViewGroup rl = findViewById(R.id.rl1);
                 if (!isUpperCardFullyHide) {
 
                     AlphaAnimation alpha = new AlphaAnimation(1.F, 0.F);
@@ -428,7 +315,7 @@ public class InputMatrixActivity extends Activity implements
                         public void onAnimationEnd(Animation animation) {
                             rl.setVisibility(View.GONE);
 
-                            CardView tabl = (CardView) findViewById(R.id.include);
+                            CardView tabl = findViewById(R.id.include);
                             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) tabl.getLayoutParams();
                             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                             tabl.setLayoutParams(layoutParams);
@@ -452,8 +339,8 @@ public class InputMatrixActivity extends Activity implements
 
     @Override
     public void onClick(View v) {
-        final Button rowCount = (Button) findViewById(R.id.rowCount);
-        Button columnCount = (Button) findViewById(R.id.columnCount);
+        final Button rowCount = findViewById(R.id.rowCount);
+        Button columnCount = findViewById(R.id.columnCount);
         switch (v.getId()) {
             case R.id.row_minus:
                 if (matrix.getRowCount() > 1) {
@@ -473,7 +360,7 @@ public class InputMatrixActivity extends Activity implements
                             getResources().getString(R.string.big_dims_inform),
                             Toast.LENGTH_SHORT);
 
-                    TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
+                    TextView textView = toast.getView().findViewById(android.R.id.message);
                     textView.setGravity(Gravity.CENTER);
                     toast.show();
                 }
@@ -499,7 +386,7 @@ public class InputMatrixActivity extends Activity implements
                             getResources().getString(R.string.big_dims_inform),
                             Toast.LENGTH_SHORT);
 
-                    TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
+                    TextView textView = toast.getView().findViewById(android.R.id.message);
                     textView.setGravity(Gravity.CENTER);
                     toast.show();
                 }
@@ -549,7 +436,7 @@ public class InputMatrixActivity extends Activity implements
 
             case R.id.hideCard:
                 if (isUpperCardFullyHide) {
-                    final ViewGroup rl = (ViewGroup) findViewById(R.id.rl1);
+                    final ViewGroup rl = findViewById(R.id.rl1);
                     AlphaAnimation alpha = new AlphaAnimation(0.F, 1.F);
                     alpha.setDuration(150);
                     alpha.setFillAfter(true);
@@ -571,7 +458,7 @@ public class InputMatrixActivity extends Activity implements
                     });
                     rl.startAnimation(alpha);
                     isUpperCardFullyHide = false;
-                    CardView tabl = (CardView) findViewById(R.id.include);
+                    CardView tabl = findViewById(R.id.include);
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) tabl.getLayoutParams();
                     layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
                     layoutParams.addRule(RelativeLayout.BELOW, R.id.rl1);
@@ -590,7 +477,7 @@ public class InputMatrixActivity extends Activity implements
                     AlphaAnimation alpha = new AlphaAnimation(1.F, 0.F);
                     alpha.setDuration(150);
                     alpha.setFillAfter(true);
-                    final ViewGroup rl = (ViewGroup) findViewById(R.id.controlLayout);
+                    final ViewGroup rl = findViewById(R.id.controlLayout);
                     alpha.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -615,7 +502,7 @@ public class InputMatrixActivity extends Activity implements
                                 Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    final ViewGroup rl = (ViewGroup) findViewById(R.id.controlLayout);
+                    final ViewGroup rl = findViewById(R.id.controlLayout);
                     AlphaAnimation alpha = new AlphaAnimation(0.F, 1.F);
                     alpha.setDuration(150);
                     alpha.setFillAfter(true);
@@ -648,7 +535,7 @@ public class InputMatrixActivity extends Activity implements
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         final int whatIsThis;
-        final NumberPicker np = (NumberPicker) dialogView.findViewById(R.id.Picker);
+        final NumberPicker np = dialogView.findViewById(R.id.Picker);
 
 
         if (countOf.getId() == R.id.rowCount) {

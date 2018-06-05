@@ -57,7 +57,7 @@ public class UpdateCheckerService extends Service {
             }).start();
         }
 
-        return Service.START_STICKY;
+        return Service.START_NOT_STICKY;
     }
 
     private void showToast(final Context context, final String message) {
@@ -80,7 +80,6 @@ public class UpdateCheckerService extends Service {
 
     private void checkForUpdates() {
         int curVersionCode = BuildConfig.VERSION_CODE;
-        // String curVersionName = "1.1"; //DEBUG
         Pair<Integer, String> latestVersion = null;
 
         while (latestVersion == null) {
@@ -131,18 +130,19 @@ public class UpdateCheckerService extends Service {
                         versionName[0] = parts[1];
                     }
                     in.close();
-                    Thread.currentThread().interrupt();
+                    return;
                 } catch (Exception e) {
                     if (calledFromSettings) {
                         showToast(getApplicationContext(), "Connection error");
                     }
-                    Thread.currentThread().interrupt();
+                    return;
                 }
             }
         });
         thread.start();
         while (versionName[0].equals("")) {
         }
+        thread.interrupt();
         return new Pair<>(versionCode[0], versionName[0]);
     }
 

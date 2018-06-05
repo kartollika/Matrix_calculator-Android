@@ -13,7 +13,7 @@ public class Inverse extends SteppableOperationUnary {
     }
 
     @Override
-    protected Matrix calc() {
+    public Matrix calc() {
         Matrix extens = new Matrix(null, getM().getRowCount(), getM().getColumnCount());
         extens.setEFrom0();
 

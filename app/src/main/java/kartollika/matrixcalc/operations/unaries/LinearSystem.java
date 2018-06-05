@@ -14,7 +14,7 @@ public class LinearSystem extends SteppableOperationUnary {
     }
 
     @Override
-    protected Matrix calc() {
+    public Matrix calc() {
         int countZeros;
         int rank;
         int vars;

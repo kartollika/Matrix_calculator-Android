@@ -28,7 +28,7 @@ class Table implements View.OnFocusChangeListener {
     }
 
     private void init(Matrix matrix) {
-        LinearLayout ll = (LinearLayout) activity.findViewById(R.id.table);
+        LinearLayout ll = activity.findViewById(R.id.table);
         LayoutInflater li = LayoutInflater.from(activity);
         ll.removeAllViews();
         for (int i = 0; i < matrix.getColumnCount(); ++i) {
@@ -45,7 +45,7 @@ class Table implements View.OnFocusChangeListener {
 
                 ll2.findViewById(R.id.cell).setId(i * 1000 + j);
 
-                final EditTextDottable et = (EditTextDottable) ll2.findViewById(i * 1000 + j);
+                final EditTextDottable et = ll2.findViewById(i * 1000 + j);
                 et.setOnFocusChangeListener(this);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -86,14 +86,14 @@ class Table implements View.OnFocusChangeListener {
         EditTextDottable etNext;
         for (int i = 0; i < columnCount; ++i) {
             for (int j = 0; j < rowCount; ++j) {
-                et = (EditTextDottable) activity.findViewById(i * 1000 + j);
-                etNext = (EditTextDottable) activity.findViewById((i + 1) * 1000 + j);
+                et = activity.findViewById(i * 1000 + j);
+                etNext = activity.findViewById((i + 1) * 1000 + j);
                 try {
                     et.setNextFocusForwardId(etNext.getId());
                 } catch (NullPointerException e) {
                     try {
                         if (isFlag()) {
-                            EditTextDottable editTextDottable = (EditTextDottable) activity.findViewById(100_000 + j);
+                            EditTextDottable editTextDottable = activity.findViewById(100_000 + j);
                             et.setNextFocusForwardId(editTextDottable.getId());
                             editTextDottable.setNextFocusForwardId(j + 1);
                         } else {
@@ -108,7 +108,7 @@ class Table implements View.OnFocusChangeListener {
     }
 
     private void init(Matrix matrix, Matrix extens) {
-        LinearLayout ll = (LinearLayout) activity.findViewById(R.id.table);
+        LinearLayout ll = activity.findViewById(R.id.table);
         LayoutInflater li = LayoutInflater.from(activity);
         ll.removeAllViews();
         for (int i = 0; i < getMatrix().getColumnCount() + extens.getColumnCount(); ++i) {
@@ -125,7 +125,7 @@ class Table implements View.OnFocusChangeListener {
 
                 ll2.findViewById(R.id.cell).setId(i * 1000 + j);
 
-                EditTextDottable et = (EditTextDottable) ll2.findViewById(i * 1000 + j);
+                EditTextDottable et = ll2.findViewById(i * 1000 + j);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     et.setShowSoftInputOnFocus(false);
                 }
@@ -169,9 +169,9 @@ class Table implements View.OnFocusChangeListener {
 
             for (int i = 0; i < (!isFlag() ? getMatrix().getColumnCount() : getMatrix().getColumnCount() + 1); ++i) {
                 if (i < getMatrix().getColumnCount()) {
-                    ll = (LinearLayout) activity.findViewById(Integer.parseInt("999" + i));
+                    ll = activity.findViewById(Integer.parseInt("999" + i));
                 } else {
-                    ll = (LinearLayout) activity.findViewById(Integer.parseInt("8888" + 1));
+                    ll = activity.findViewById(Integer.parseInt("8888" + 1));
                 }
                 ViewGroup ll1 = (FrameLayout) li.inflate(R.layout.table_item, null);
 
@@ -182,10 +182,10 @@ class Table implements View.OnFocusChangeListener {
                 EditTextDottable et;
                 if (isFlag() && i >= getMatrix().getColumnCount()) {
                     ll1.findViewById(R.id.cell).setId(100_000 + k);
-                    et = (EditTextDottable) ll1.findViewById(100_000 + k);
+                    et = ll1.findViewById(100_000 + k);
                 } else {
                     ll1.findViewById(R.id.cell).setId(i * 1000 + k);
-                    et = (EditTextDottable) ll1.findViewById(i * 1000 + k);
+                    et = ll1.findViewById(i * 1000 + k);
                 }
                 ll.addView(ll1);
                 et.setOnFocusChangeListener(this);
@@ -216,7 +216,7 @@ class Table implements View.OnFocusChangeListener {
 
         while (k < newDimM) {
             LayoutInflater li = LayoutInflater.from(activity);
-            LinearLayout ll = (LinearLayout) activity.findViewById(R.id.table);
+            LinearLayout ll = activity.findViewById(R.id.table);
 
             LinearLayout ll1 = new LinearLayout(activity);
             ll1.setOrientation(LinearLayout.VERTICAL);
@@ -234,7 +234,7 @@ class Table implements View.OnFocusChangeListener {
 
                 ll1.addView(ll2);
 
-                EditTextDottable et = (EditTextDottable) ll1.findViewById(k * 1000 + i);
+                EditTextDottable et = ll1.findViewById(k * 1000 + i);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     et.setShowSoftInputOnFocus(false);
                 }
@@ -295,7 +295,7 @@ class Table implements View.OnFocusChangeListener {
         setFlag();
 
         LayoutInflater li = LayoutInflater.from(activity);
-        LinearLayout ll = (LinearLayout) activity.findViewById(R.id.table);
+        LinearLayout ll = activity.findViewById(R.id.table);
 
         LinearLayout ll1 = new LinearLayout(activity);
         ll1.setOrientation(LinearLayout.VERTICAL);
@@ -312,7 +312,7 @@ class Table implements View.OnFocusChangeListener {
             ll2.findViewById(R.id.cell).setId(100_000 + i);
             ll1.addView(ll2);
 
-            EditTextDottable et = (EditTextDottable) ll1.findViewById(100_000 + i);
+            EditTextDottable et = ll1.findViewById(100_000 + i);
             et.setOnFocusChangeListener(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 et.setShowSoftInputOnFocus(false);

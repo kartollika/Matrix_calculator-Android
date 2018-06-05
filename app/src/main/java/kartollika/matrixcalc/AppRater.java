@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.widget.Toast;
 
 public class AppRater extends DialogFragment {
 
@@ -37,6 +36,7 @@ public class AppRater extends DialogFragment {
         if (canShow) {
             new AppRater().show(fragmentManager, null);
         }
+
         editor.putInt("operationsDone", operationsDone);
         editor.apply();
     }
@@ -50,9 +50,11 @@ public class AppRater extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getActivity().getPackageName())));
+                            startActivity(new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("market://details?id=" + getActivity().getPackageName())));
                         } catch (ActivityNotFoundException e) {
-                            Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.gp_not_found), Toast.LENGTH_SHORT).show();
+                            Utilities.createShortToast(getActivity().getApplicationContext(),
+                                    R.string.gp_not_found).show();
                         }
                         getSharedPreferences(getActivity()).edit().putBoolean(DISABLED, true).apply();
                         dismiss();

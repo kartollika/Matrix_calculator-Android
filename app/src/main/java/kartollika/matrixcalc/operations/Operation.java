@@ -1,9 +1,11 @@
-package kartollika.matrixcalc;
+package kartollika.matrixcalc.operations;
+
+import kartollika.matrixcalc.Matrix;
 
 public abstract class Operation {
     private Matrix result;
 
-    protected abstract Matrix calc();
+    public abstract Matrix calc();
 
     public Matrix getResult() {
         return result;

@@ -136,13 +136,18 @@
     <string name="update_available_from_settings_part2">Click to notification in panel to update the app from Google Play</string>
     <string name="watch_ad">Remove ads</string>
     <string name="watch">Watch</string>
-    <string name="remove_banners">Remove ad banners</string>
-    <string name="succ_blocked_banners">You blocked banners for 2 hours</string>
-    <string name="message_about_removing_banners">Watch an advertisement to block banners for (2) hours</string>
-    <string name="failed_watch_ad_connection_problem">Failed to load the video. Please, check your internet connection</string>
-    <string name="error_try_watch_ad_again">Banners are still blocked. Can not show another video</string>
+    <string name="failed_watch_ad_connection_problem">Failed to load the advertisement. Please, check your internet connection</string>
     <string name="confirm">Okay</string>
     <string name="permWarning">Giving the permission</string>
     <string name="locationwarning">Determining the location will allow you to select ads for you more accurately\nAnd also you support the further development of the application and other projects</string>
     <string name="externalstoragewarning">Writing to the storage is necessary for the stable showing advertisements in the application\nUsing advertising, you support the developer and work on projects</string>
+    <string name="message_about_removing_ads">Watch video advertisement to remove:\nBanners - for <xliff:g example="1" id="time1">%1$d</xliff:g> minutes\nIntertitial ads - for <xliff:g example="1" id="time2">%2$d</xliff:g> minutes</string>
+    <string name="succ_blocked_interstitials">You blocked interstitial ads for <xliff:g example="1" id="time">%1$d</xliff:g> minutes</string>
+    <string name="error_try_watch_ad_again">All types of advertisements are blocked</string>
+    <string name="succ_blocked_banners">You blocked banners for <xliff:g example="1" id="time">%1$d</xliff:g> minutes</string>
+    <string name="banners">Banners</string>
+    <string name="interstitials">Interstitials</string>
+    <string name="remove_banners">Remove ads</string>
+    <string name="try_again_open_reward_video">Reward video is not loaded yet. Try recall it!</string>
+
 </resources>

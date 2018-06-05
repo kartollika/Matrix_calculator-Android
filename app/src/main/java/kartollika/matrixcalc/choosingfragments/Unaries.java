@@ -34,7 +34,7 @@ public class Unaries extends Fragment {
             if (i == 0) {
                 linearLayout = (LinearLayout) view.findViewById(R.id.ll0);
             } else {
-                linearLayout = (LinearLayout) view.findViewById(R.id.ll1);
+                linearLayout = view.findViewById(R.id.ll1);
             }
 
             for (int j = 0; j < 4; ++j) {

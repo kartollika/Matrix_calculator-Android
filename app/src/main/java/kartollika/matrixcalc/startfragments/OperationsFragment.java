@@ -18,11 +18,15 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.InterstitialAd;
+
 import kartollika.matrixcalc.AppRater;
 import kartollika.matrixcalc.ChooseOperationActivity;
-import kartollika.matrixcalc.GlobalValues;
+import kartollika.matrixcalc.App;
 import kartollika.matrixcalc.InputMatrixActivity;
+import kartollika.matrixcalc.InterstitialShow;
 import kartollika.matrixcalc.MainActivity;
+import kartollika.matrixcalc.Manifest;
 import kartollika.matrixcalc.Matrix;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.RationalNumber;
@@ -35,7 +39,7 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
     Matrix matrixA;
     Matrix matrixB;
 
-    AlertDialog dialog;
+    private AlertDialog dialog;
 
     private static final int MATRIX_A = 1;
     private static final int MATRIX_B = 2;
@@ -62,10 +66,10 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_operations, container, false);
 
-        Button btnA = (Button) view.findViewById(R.id.btnA);
-        Button btnB = (Button) view.findViewById(R.id.btnB);
-        final Button operationSelect = (Button) view.findViewById(R.id.operations);
-        final Button equals = (Button) view.findViewById(R.id.equals);
+        Button btnA = view.findViewById(R.id.btnA);
+        Button btnB = view.findViewById(R.id.btnB);
+        final Button operationSelect = view.findViewById(R.id.operations);
+        final Button equals = view.findViewById(R.id.equals);
 
         btnA.setOnClickListener(this);
         btnB.setOnClickListener(this);
@@ -157,7 +161,7 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
                             intent.putExtra("matrix2", new Matrix(matrixA));
                         }
 
-                        startActivity(intent);
+                        startActivityForResult(intent, SOLVE);
                         break;
 
                         /* DETERMINANT */
@@ -179,7 +183,7 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
                             intent.putExtra("matrix", new Matrix(matrixB));
                         }
 
-                        startActivity(intent);
+                        startActivityForResult(intent, SOLVE);
                         break;
 
                         /* INVERSE MATRIX */
@@ -201,7 +205,7 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
                             intent.putExtra("matrix", new Matrix(matrixB));
                         }
 
-                        startActivity(intent);
+                        startActivityForResult(intent, SOLVE);
                         break;
 
                         /* TRANSPOSE */
@@ -213,7 +217,7 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
                         } else {
                             intent.putExtra("matrix", new Matrix(matrixB));
                         }
-                        startActivity(intent);
+                        startActivityForResult(intent, SOLVE);
                         break;
 
                         /* POWER */
@@ -269,11 +273,11 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
         String operationString = preferences.getString("operationText", getResources().getString(R.string.choose_operation));
 
         if (operation > -1) {
-            Button operationSelect = (Button) getActivity().findViewById(R.id.operations);
+            Button operationSelect = getActivity().findViewById(R.id.operations);
             operationSelect.setText(Html.fromHtml(operationString));
         }
 
-        matrixA = ((GlobalValues) getActivity().getApplication()).matrices[0];
+        matrixA = App.matrices[0];
         if (matrixA == null) {
             matrixA = new Matrix(null, defDimN, defDimM);
         }
@@ -282,7 +286,7 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
         }
 
 
-        matrixB = ((GlobalValues) getActivity().getApplication()).matrices[1];
+        matrixB = App.matrices[1];
         if (matrixB == null) {
             matrixB = new Matrix(null, defDimN, defDimM);
         }
@@ -319,7 +323,7 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
         builder.setView(input);
 
         if (param == 1) {
-            input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+            input.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
 
         builder
@@ -347,7 +351,7 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
                             }
                         }
                         dialogInterface.dismiss();
-                        startActivity(intent);
+                        startActivityForResult(intent, SOLVE);
                     }
                 })
                 .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -381,7 +385,7 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
                         } else {
                             return;
                         }
-                        ((GlobalValues) getActivity().getApplication()).matrices[0] = matrixA;
+                        App.matrices[0] = matrixA;
                         break;
                     }
 
@@ -394,7 +398,7 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
                         } else {
                             return;
                         }
-                        ((GlobalValues) getActivity().getApplication()).matrices[1] = matrixB;
+                        App.matrices[1] = matrixB;
                         break;
                     }
 
@@ -407,21 +411,22 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
                     operation = data.getIntExtra("operation", -1);
                     editor.putInt("operation", operation);
 
-                    Button operationSelect = (Button) getActivity().findViewById(R.id.operations);
+                    Button operationSelect = getActivity().findViewById(R.id.operations);
                     operationSelect.setText(Html.fromHtml(s));
                     editor.apply();
                     break;
 
                 case SOLVE:
                     AppRater.appLaunched(getContext(), getActivity().getFragmentManager());
+                    InterstitialShow.showInterstitialAd();
             }
         }
     }
 
     @Override
     public void onDetach() {
-        ((GlobalValues) getActivity().getApplication()).matrices[0] = matrixA;
-        ((GlobalValues) getActivity().getApplication()).matrices[1] = matrixB;
+        App.matrices[0] = matrixA;
+        App.matrices[1] = matrixB;
 
         super.onDetach();
     }

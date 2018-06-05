@@ -8,8 +8,12 @@
     <string name="About" translatable="false">About</string>
     <string name="splash_title">Калькулятор\nматриц</string>
 
+    <string name="app_id" translatable="false">ca-app-pub-9193176037122415~9633966613</string>
     <string name="ad_activity_main" translatable="false">ca-app-pub-9193176037122415/5469213094</string>
     <string name="ad_activity_result" translatable="false">ca-app-pub-9193176037122415/1668557125</string>
+    <string name="reward_video_ad" translatable="false">ca-app-pub-9193176037122415/8950201250</string>
+    <string name="remove_interstitial_reward_video" translatable="false">ca-app-pub-9193176037122415/3578934006</string>
+    <string name="interstitial_ad" translatable="false">ca-app-pub-9193176037122415/3097332676</string>
 
     <string name="identity_matrix">Единичная</string>
     <string name="zero_matrix">Нулевая</string>
@@ -161,14 +165,20 @@
     <string name="to_slot_system">в слот матрицы</string>
     <string name="save_to_slot_success">Матрица сохранена в слот системы</string>
     <string name="watch_ad">Убрать баннеры</string>
-    <string name="failed_watch_ad_connection_problem">Не получилось загрузить видео. Проверьте настройки соединения</string>
-    <string name="succ_blocked_banners">Вы отключили баннеры на 2 часа</string>
-    <string name="remove_banners">Убрать рекламные блоки</string>
-    <string name="message_about_removing_banners">Посмотреть рекламный ролик, чтобы убрать баннеры на (2) часа</string>
+    <string name="failed_watch_ad_connection_problem">Не получилось загрузить рекламу. Проверьте настройки соединения</string>
+
     <string name="watch">Посмотреть</string>
-    <string name="error_try_watch_ad_again">Баннеры до сих пор скрыты. Видео не может быть показано сейчас</string>
-    
     <string name="permWarning">Дать разрешение</string>
     <string name="locationwarning">Определение локации позволит подбирать рекламу для вас более точно\nА также вы поддержите дальнейшее развитие приложения и других проектов</string>
     <string name="externalstoragewarning">Запись на память необходима для стабильной работы рекламы в приложении\nИспользуя рекламу, вы поддерживаете разработчика и работу над проектами</string>
+
+    <string name="remove_banners">Убрать рекламу</string>
+    <string name="succ_blocked_interstitials">Вы отключили межстраничные объявления на <xliff:g example="1" id="time">%1$d</xliff:g> минут</string>
+    <string name="succ_blocked_banners">Вы отключили баннеры на <xliff:g example="1" id="time">%1$d</xliff:g> минут</string>
+    <string name="error_try_watch_ad_again">Все виды рекламы в данный момент скрыты</string>
+    <string name="message_about_removing_ads">Посмотреть рекламный ролик, чтобы убрать:\nБаннеры - на <xliff:g example="1" id="time1">%1$d</xliff:g> минут\nМежстранничные объявления - на <xliff:g example="1" id="time2">%2$d</xliff:g> минут</string>
+    <string name="banners">Баннеры</string>
+    <string name="interstitials">Межстраничные объявления</string>
+    <string name="try_again_open_reward_video">Видео еще не загрузилось. Попробуйте снова!</string>
+
 </resources>
