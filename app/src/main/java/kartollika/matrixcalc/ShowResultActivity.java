@@ -1,9 +1,7 @@
 package kartollika.matrixcalc;
 
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.AdaptiveIconDrawable;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.Html;
@@ -291,7 +289,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
         ((ProgressBar) findViewById(R.id.progressBar)).setMax(matrices.size() - 1);
 
         ((TextView) findViewById(R.id.hints)).setText(Html.fromHtml(strings.get(0)));
-        if (operation == 9) {
+        if (extensMatrices != null) {
             new Table(this, matrices.get(0), extensMatrices.get(0));
         } else {
             new Table(this, matrices.get(0));

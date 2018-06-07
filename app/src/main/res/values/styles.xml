@@ -8,6 +8,11 @@
 
     </style>
 
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="SettingsThemeLight" parent="AppTheme">
         <item name="android:background">#efebe9</item>
         <item name="android:textColorPrimary">#000000</item>

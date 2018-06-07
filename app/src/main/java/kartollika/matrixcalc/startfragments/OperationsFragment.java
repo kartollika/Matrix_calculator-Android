@@ -1,5 +1,6 @@
 package kartollika.matrixcalc.startfragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -417,8 +418,9 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
                     break;
 
                 case SOLVE:
-                    AppRater.appLaunched(getContext(), getActivity().getFragmentManager());
-                    InterstitialShow.showInterstitialAd();
+                    afterSolveOperations(getActivity());
+                   /* AppRater.appLaunched(getContext(), getActivity().getFragmentManager());
+                    InterstitialShow.showInterstitialAd();*/
             }
         }
     }
@@ -443,5 +445,10 @@ public class OperationsFragment extends Fragment implements View.OnClickListener
         super.onPause();
         if (dialog != null)
             dialog.dismiss();
+    }
+
+    public static void afterSolveOperations(Activity activity) {
+        AppRater.appLaunched(activity, activity.getFragmentManager());
+        InterstitialShow.showInterstitialAd();
     }
 }

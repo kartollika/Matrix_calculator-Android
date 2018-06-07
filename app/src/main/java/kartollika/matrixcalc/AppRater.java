@@ -77,8 +77,6 @@ public class AppRater extends DialogFragment {
                 }
             });
         }
-
-
         setCancelable(false);
         return builder.create();
     }

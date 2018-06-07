@@ -129,7 +129,7 @@
     <string name="defrowstitle">Default count of rows</string>
     <string name="defcolstitle">Default count of columns</string>
     <string name="defcolssumm">Default count of columns</string>
-    <string name="version">Version</string>
+    <string name="version">to version</string>
     <string name="clickToUpdate">Click to update the app from Google Play</string>
     <string name="update_available">New update available</string>
     <string name="noUpdateAvailable">You are up to date!</string>
@@ -149,5 +149,8 @@
     <string name="interstitials">Interstitials</string>
     <string name="remove_banners">Remove ads</string>
     <string name="try_again_open_reward_video">Reward video is not loaded yet. Try recall it!</string>
+    <string name="permission_granted">Permission granted</string>
+    <string name="permission_not_granted">Permission not granted</string>
+    <string name="permission_message_dialog">Application will ask you for a GPS permission. This service helps the advertisements fits better depending on your location\n Also, granting this permission will increase revenue by ads and you will help developer with future big projects</string>
 
 </resources>

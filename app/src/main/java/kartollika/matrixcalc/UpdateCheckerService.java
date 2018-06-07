@@ -116,33 +116,32 @@ public class UpdateCheckerService extends Service {
         final int[] versionCode = new int[1];
         versionName[0] = "";
 
-        final Thread thread = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    URL url = new URL("https://rawgit.com/kartollika/Matrix_calculator-Android/master/app/latest_version_new.txt");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(10000);
-                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String str;
-                    while ((str = in.readLine()) != null) {
-                        String[] parts = str.split(" ");
-                        versionCode[0] = Integer.valueOf(parts[0]);
-                        versionName[0] = parts[1];
+        synchronized (this) {
+            while (versionName[0].equals("")) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            URL url = new URL("https://rawgit.com/kartollika/Matrix_calculator-Android/master/app/latest_version_new.txt");
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setConnectTimeout(10000);
+                            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            String str;
+                            while ((str = in.readLine()) != null) {
+                                String[] parts = str.split(" ");
+                                versionCode[0] = Integer.valueOf(parts[0]);
+                                versionName[0] = parts[1];
+                            }
+                            in.close();
+                        } catch (Exception e) {
+                            if (calledFromSettings) {
+                                showToast(getApplicationContext(), "Connection error");
+                            }
+                        }
                     }
-                    in.close();
-                    return;
-                } catch (Exception e) {
-                    if (calledFromSettings) {
-                        showToast(getApplicationContext(), "Connection error");
-                    }
-                    return;
-                }
+                }).start();
             }
-        });
-        thread.start();
-        while (versionName[0].equals("")) {
         }
-        thread.interrupt();
+
         return new Pair<>(versionCode[0], versionName[0]);
     }
 
@@ -157,7 +156,7 @@ public class UpdateCheckerService extends Service {
         notifBuilder.setAutoCancel(true);
         notifBuilder.setContentTitle(getResources().getString(R.string.update_available));
         notifBuilder.setOngoing(false);
-        notifBuilder.setContentText(getResources().getString(R.string.version) + " " + latestVersionName);
+        notifBuilder.setContentText(contentText + getResources().getString(R.string.version) + " " + latestVersionName);
         notifBuilder.setContentIntent(pIntent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notifBuilder.setColor(Color.LTGRAY);

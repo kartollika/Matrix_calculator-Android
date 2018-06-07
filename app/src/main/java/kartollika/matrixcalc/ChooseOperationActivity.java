@@ -18,7 +18,6 @@ public class ChooseOperationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //setTheme(R.style.OperationsTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_operation);
 

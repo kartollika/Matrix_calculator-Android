@@ -158,7 +158,7 @@
 
     <string name="update_available">Доступно обновление!</string>
     <string name="clickToUpdate">Нажмите, чтобы обновить приложение</string>
-    <string name="version">Версия</string>
+    <string name="version">версии</string>
     <string name="noUpdateAvailable">Новых обновлений нет</string>
     <string name="update_available_from_settings_part2">Нажмите на соответстующее уведомление на панели, чтобы обновить приложение</string>
 
@@ -169,9 +169,8 @@
 
     <string name="watch">Посмотреть</string>
     <string name="permWarning">Дать разрешение</string>
-    <string name="locationwarning">Определение локации позволит подбирать рекламу для вас более точно\nА также вы поддержите дальнейшее развитие приложения и других проектов</string>
-    <string name="externalstoragewarning">Запись на память необходима для стабильной работы рекламы в приложении\nИспользуя рекламу, вы поддерживаете разработчика и работу над проектами</string>
 
+    <!-- String since 1.4 -->
     <string name="remove_banners">Убрать рекламу</string>
     <string name="succ_blocked_interstitials">Вы отключили межстраничные объявления на <xliff:g example="1" id="time">%1$d</xliff:g> минут</string>
     <string name="succ_blocked_banners">Вы отключили баннеры на <xliff:g example="1" id="time">%1$d</xliff:g> минут</string>
@@ -180,5 +179,10 @@
     <string name="banners">Баннеры</string>
     <string name="interstitials">Межстраничные объявления</string>
     <string name="try_again_open_reward_video">Видео еще не загрузилось. Попробуйте снова!</string>
+
+    <!-- String since 1.4.3 -->
+    <string name="permission_granted">Разрешение получено</string>
+    <string name="permission_not_granted">Разрешение не получено</string>
+    <string name="permission_message_dialog">Приложение хочет запросить у вас разрешение на использование GPS системы. Это нужно для того, чтобы реклама лучше подбиралась для вас исходя из вашего текущего местоположения\nА также вы очень поддержите разработчика в развитии его будущих проектов :3</string>
 
 </resources>

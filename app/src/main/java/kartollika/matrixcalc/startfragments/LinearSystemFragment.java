@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import kartollika.matrixcalc.AppRater;
 import kartollika.matrixcalc.App;
 import kartollika.matrixcalc.InputMatrixActivity;
 import kartollika.matrixcalc.MainActivity;
@@ -42,8 +41,8 @@ public class LinearSystemFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_linear_system, container, false);
 
-        Button system = (Button) view.findViewById(R.id.system);
-        Button solveSystem = (Button) view.findViewById(R.id.solve_system);
+        Button system = view.findViewById(R.id.system);
+        Button solveSystem = view.findViewById(R.id.solve_system);
 
         system.setOnClickListener(this);
         solveSystem.setOnClickListener(this);
@@ -80,7 +79,7 @@ public class LinearSystemFragment extends Fragment implements View.OnClickListen
         int defDimN = Integer.parseInt(preferences.getString("defDimN", "3"));
         int defDimM = Integer.parseInt(preferences.getString("defDimM", "3"));
 
-        matrix = ((App) getActivity().getApplication()).systemMatrix;
+        matrix = App.systemMatrix;
 
         if (matrix == null) {
             matrix = new Matrix(null, null, defDimN, defDimM);
@@ -99,7 +98,7 @@ public class LinearSystemFragment extends Fragment implements View.OnClickListen
     @Override
     public void onDetach() {
         super.onDetach();
-        ((App) getActivity().getApplication()).systemMatrix = matrix;
+        App.systemMatrix = matrix;
     }
 
     @Override
@@ -107,7 +106,9 @@ public class LinearSystemFragment extends Fragment implements View.OnClickListen
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data == null) {
-            return;
+            if (requestCode != SOLVE) {
+                return;
+            }
         }
 
         if (resultCode == RESULT_OK) {
@@ -121,12 +122,14 @@ public class LinearSystemFragment extends Fragment implements View.OnClickListen
                         } else {
                             return;
                         }
-                        ((App) getActivity().getApplication()).systemMatrix = matrix;
+                        App.systemMatrix = matrix;
                     }
                     break;
 
                 case SOLVE:
-                    AppRater.appLaunched(getContext(), getActivity().getFragmentManager());
+                    OperationsFragment.afterSolveOperations(getActivity());
+                    /*AppRater.appLaunched(getContext(), getActivity().getFragmentManager());
+                    InterstitialShow.showInterstitialAd();*/
             }
         }
     }
