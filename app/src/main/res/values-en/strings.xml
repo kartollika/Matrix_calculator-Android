@@ -152,5 +152,5 @@
     <string name="permission_granted">Permission granted</string>
     <string name="permission_not_granted">Permission not granted</string>
     <string name="permission_message_dialog">Application will ask you for a GPS permission. This service helps the advertisements fits better depending on your location\n Also, granting this permission will increase revenue by ads and you will help developer with future big projects</string>
-
+    <string name="conn_error">Connection error while checking new updates</string>
 </resources>
