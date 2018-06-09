@@ -11,13 +11,9 @@ import android.support.v4.app.ActivityCompat;
 
 public class PermAsk extends DialogFragment {
 
-    public static void showPermDialog(FragmentManager fragmentManager) {
-        new PermAsk().show(fragmentManager, null);
-    }
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder dialog =  new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.permWarning)
                 .setMessage(R.string.permission_message_dialog)
                 .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
@@ -35,4 +31,5 @@ public class PermAsk extends DialogFragment {
         ActivityCompat.requestPermissions(getActivity(),
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
     }
+
 }

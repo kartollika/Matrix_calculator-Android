@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -52,9 +53,22 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    PermAsk.showPermDialog(getFragmentManager());
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (PermissionRequestUtil.isFirstTimeAskingPermission(getApplicationContext())) {
+                        PermissionRequestUtil.firstTimeAskPermission(getFragmentManager());
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                                .edit()
+                                .putBoolean("firstTimePermission", false)
+                                .apply();
+                    } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                                PermissionRequestUtil.showPermDialog(getFragmentManager());
+                            } else {
+                                loadMainActivity();
+                            }
+                        }
+                    }
                 } else {
                     loadMainActivity();
                 }
@@ -65,14 +79,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Utilities.createShortToast(getApplicationContext(), R.string.permission_granted).show();
-                } else {
-                    Utilities.createShortToast(getApplicationContext(), R.string.permission_not_granted).show();
-                }
-        }
         loadMainActivity();
     }
 
