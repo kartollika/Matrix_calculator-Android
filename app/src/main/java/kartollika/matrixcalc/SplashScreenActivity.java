@@ -1,16 +1,12 @@
 package kartollika.matrixcalc;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
@@ -53,25 +49,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    if (PermissionRequestUtil.isFirstTimeAskingPermission(getApplicationContext())) {
-                        PermissionRequestUtil.firstTimeAskPermission(getFragmentManager());
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                                .edit()
-                                .putBoolean("firstTimePermission", false)
-                                .apply();
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                                PermissionRequestUtil.showPermDialog(getFragmentManager());
-                            } else {
-                                loadMainActivity();
-                            }
-                        }
-                    }
-                } else {
-                    loadMainActivity();
-                }
+                loadMainActivity();
             }
         }, SPLASH_TIME_OUT);
     }
