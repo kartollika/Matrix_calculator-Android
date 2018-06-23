@@ -1,5 +1,6 @@
 package kartollika.matrixcalc;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -79,6 +80,7 @@ final class AdUtils {
                         Toast.LENGTH_LONG).show();
             }
 
+            @SuppressLint("StringFormatInvalid")
             @Override
             public void onRewardedVideoCompleted() {
                 switch (App.CUR_REWARD) {
@@ -105,7 +107,6 @@ final class AdUtils {
                 public void onAdFailedToLoad(int errorCode) {
                     if (App.canShowNewBannersVideo()) {
                         activity.findViewById(R.id.adText).setVisibility(View.VISIBLE);
-                        //tryLoadBanner(adView);
                     } else {
                         turnOnOffAdCard(activity, View.GONE);
                     }
@@ -122,16 +123,13 @@ final class AdUtils {
                     activity.findViewById(R.id.adText).setVisibility(View.GONE);
                 }
             });
-            AdRequest adRequest = new AdRequest.Builder().addTestDevice(TARGET_DEVICE_ID).build();
-            adView.loadAd(adRequest);
+            if (!BuildConfig.DEBUG) {
+                AdRequest adRequest = new AdRequest.Builder().addTestDevice(TARGET_DEVICE_ID).build();
+                adView.loadAd(adRequest);
+            }
         } else {
             turnOnOffAdCard(activity, View.GONE);
         }
-    }
-
-    public static void tryLoadBanner(AdView adView) {
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(TARGET_DEVICE_ID).build();
-        adView.loadAd(adRequest);
     }
 
     private static void turnOnOffAdCard(Activity activity, int STATUS) {
@@ -156,12 +154,19 @@ final class AdUtils {
     }
 
     private static void loadRewardVideoAd() {
-        rewardedVideoAd.loadAd(resources.getString(R.string.reward_video_ad),
-                new AdRequest.Builder().addTestDevice(TARGET_DEVICE_ID).build());
+        AdRequest adRequest;
+        if (!BuildConfig.DEBUG) {
+            adRequest = new AdRequest.Builder().addTestDevice(TARGET_DEVICE_ID).build();
+            rewardedVideoAd.loadAd(resources.getString(R.string.reward_video_ad), adRequest);
+        }
     }
 
     private static void loadInterstitialAd() {
-        interstitialAd.loadAd(new AdRequest.Builder().addTestDevice(TARGET_DEVICE_ID).build());
+        AdRequest adRequest;
+        if (!BuildConfig.DEBUG) {
+            adRequest = new AdRequest.Builder().addTestDevice(TARGET_DEVICE_ID).build();
+            interstitialAd.loadAd(adRequest);
+        }
     }
 
     public static void showRewardVideoAd(Context context) {
