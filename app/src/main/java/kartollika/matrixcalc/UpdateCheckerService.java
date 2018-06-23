@@ -15,9 +15,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Pair;
-import android.view.Gravity;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -69,7 +66,6 @@ public class UpdateCheckerService extends Service {
             @Override
             public void run() {
                 Toast toast = Utilities.createLongToast(context, message);
-                ((TextView) ((LinearLayout) toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
                 toast.show();
             }
         });
@@ -156,7 +152,7 @@ public class UpdateCheckerService extends Service {
 
     private boolean hasConnection() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
+        return cm != null && cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 
     private void sendNotification(String latestVersionName) {
