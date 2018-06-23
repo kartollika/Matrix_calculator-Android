@@ -47,8 +47,8 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="notifications"
-            android:summary="Разрешить уведомления"
-            android:title="Уведомления">
+            android:summary="@string/setting_title_allow_checking_update"
+            android:title="@string/setting_allow_checking_update">
 
         </CheckBoxPreference>
 
@@ -70,8 +70,8 @@
 
         <PreferenceScreen
             android:key="checkUpdate"
-            android:summary="Проверить на наличие обновлений"
-            android:title="Обновить">
+            android:summary="@string/setting_check_updates_manually"
+            android:title="@string/setting_title_check_updates_manually">
 
         </PreferenceScreen>
 

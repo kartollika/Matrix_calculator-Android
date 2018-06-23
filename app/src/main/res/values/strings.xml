@@ -191,4 +191,6 @@
     <!-- String since 1.6 -->
     <string name="setting_title_allow_checking_update">Обновления</string>
     <string name="setting_allow_checking_update">Проверять наличие новых обновлений при запуске</string>
+    <string name="setting_title_check_updates_manually">Обновить</string>
+    <string name="setting_check_updates_manually">Проверить на наличие обновлений</string>
 </resources>

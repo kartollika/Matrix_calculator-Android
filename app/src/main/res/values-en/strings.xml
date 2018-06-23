@@ -157,4 +157,6 @@
     <!-- String since 1.6 -->
     <string name="setting_title_allow_checking_update">Updates</string>
     <string name="setting_allow_checking_update">Check for updates while application starts</string>
+    <string name="setting_title_check_updates_manually">Check updates</string>
+    <string name="setting_check_updates_manually">Check for newest version of application</string>
 </resources>
