@@ -187,4 +187,8 @@
 
     <!-- String since 1.5 -->
     <string name="conn_error">Ошибка подключения при попытке запросить обновления</string>
+
+    <!-- String since 1.6 -->
+    <string name="setting_title_allow_checking_update">Обновления</string>
+    <string name="setting_allow_checking_update">Проверять наличие новых обновлений при запуске</string>
 </resources>
