@@ -17,6 +17,6 @@
     <item
         android:id="@+id/remove_ads"
         android:orderInCategory="102"
-        android:title="@string/watch_ad"/>
+        android:title="@string/remove_ads"/>
 
 </menu>

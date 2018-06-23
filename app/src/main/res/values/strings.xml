@@ -164,14 +164,13 @@
 
     <string name="to_slot_system">в слот матрицы</string>
     <string name="save_to_slot_success">Матрица сохранена в слот системы</string>
-    <string name="watch_ad">Убрать баннеры</string>
     <string name="failed_watch_ad_connection_problem">Не получилось загрузить рекламу. Проверьте настройки соединения</string>
 
     <string name="watch">Посмотреть</string>
     <string name="permWarning">Дать разрешение</string>
 
     <!-- String since 1.4 -->
-    <string name="remove_banners">Убрать рекламу</string>
+    <string name="remove_ads">Убрать рекламу</string>
     <string name="succ_blocked_interstitials">Вы отключили межстраничные объявления на <xliff:g example="1" id="time">%1$d</xliff:g> минут</string>
     <string name="succ_blocked_banners">Вы отключили баннеры на <xliff:g example="1" id="time">%1$d</xliff:g> минут</string>
     <string name="error_try_watch_ad_again">Все виды рекламы в данный момент скрыты</string>
