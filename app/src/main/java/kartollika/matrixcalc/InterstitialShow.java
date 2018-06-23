@@ -2,7 +2,7 @@ package kartollika.matrixcalc;
 
 public final class InterstitialShow {
 
-    private static final int OPERATION_UNTIL_AD = 4;
+    private static final int OPERATION_UNTIL_AD = 3;
     static int CUR_OPERATIONS;
 
     public static void showInterstitialAd() {
