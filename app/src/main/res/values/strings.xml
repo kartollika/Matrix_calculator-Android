@@ -177,7 +177,7 @@
     <string name="error_try_watch_ad_again">Все виды рекламы в данный момент скрыты</string>
     <string name="message_about_removing_ads">Посмотреть рекламный ролик, чтобы убрать:\nБаннеры - на <xliff:g example="1" id="time1">%1$d</xliff:g> минут\nМежстранничные объявления - на <xliff:g example="1" id="time2">%2$d</xliff:g> минут</string>
     <string name="banners">Баннеры</string>
-    <string name="interstitials">Межстраничные объявления</string>
+    <string name="interstitials">Межстраничные</string>
     <string name="try_again_open_reward_video">Видео еще не загрузилось. Попробуйте снова!</string>
 
     <!-- String since 1.4.3 -->

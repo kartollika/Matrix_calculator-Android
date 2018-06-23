@@ -146,7 +146,7 @@
     <string name="error_try_watch_ad_again">All types of advertisements are blocked</string>
     <string name="succ_blocked_banners">You blocked banners for <xliff:g example="1" id="time">%1$d</xliff:g> minutes</string>
     <string name="banners">Banners</string>
-    <string name="interstitials">Interstitials</string>
+    <string name="interstitials">Interstitial</string>
     <string name="remove_banners">Remove ads</string>
     <string name="try_again_open_reward_video">Reward video is not loaded yet. Try recall it!</string>
     <string name="permission_granted">Permission granted</string>
