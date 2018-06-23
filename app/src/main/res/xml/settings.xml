@@ -47,8 +47,8 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="notifications"
-            android:summary="@string/setting_title_allow_checking_update"
-            android:title="@string/setting_allow_checking_update">
+            android:summary="@string/setting_allow_checking_update"
+            android:title="@string/setting_title_allow_checking_update">
 
         </CheckBoxPreference>
 
