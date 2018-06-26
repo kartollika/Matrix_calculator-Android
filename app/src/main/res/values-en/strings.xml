@@ -164,4 +164,5 @@
     <string name="email_subject">Matrix calculator (Review)</string>
     <string name="email_text">Reporting a..</string>
     <string name="setting_email_summary">Report a bug or offer a functionality</string>
+    <string name="block_ads"><xliff:g example="1" id="type">%1$s</xliff:g> - remove for <xliff:g example="1" id="time">%2$d</xliff:g> minutes</string>
 </resources>

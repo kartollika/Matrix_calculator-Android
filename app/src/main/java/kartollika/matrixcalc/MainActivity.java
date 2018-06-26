@@ -24,6 +24,9 @@ import android.view.MenuItem;
 
 import com.google.android.gms.ads.AdView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kartollika.matrixcalc.startfragments.LinearSystemFragment;
 import kartollika.matrixcalc.startfragments.OperationsFragment;
 
@@ -112,8 +115,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("StringFormatInvalid")
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         final Activity activity = this;
         switch (item.getItemId()) {
             case R.id.settings: {
@@ -136,62 +140,80 @@ public class MainActivity extends AppCompatActivity {
                 if (!App.canShowNewBannersVideo() && !App.canShowNewInterstitialVideo()) {
                     Utilities.createLongToast(activity,
                             R.string.error_try_watch_ad_again).show();
-                    return true;
+                    return false;
                 }
-                @SuppressLint({"StringFormatInvalid", "LocalSuppress"}) final AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle(R.string.remove_ads)
-                        .setMessage(getString(R.string.message_about_removing_ads,
-                                App.BLOCKING_BANNERS, App.BLOCKING_INTERSITIALS))
-                        .setPositiveButton(R.string.banners, new DialogInterface.OnClickListener() {
+
+                final List<CharSequence> sequenceArrayList = new ArrayList<>();
+
+                if (App.canShowNewBannersVideo()) {
+                    sequenceArrayList.add(getString(R.string.block_ads,
+                            getString(R.string.banners), App.BLOCKING_BANNERS));
+                }
+
+                if (App.canShowNewInterstitialVideo()) {
+                    sequenceArrayList.add(getString(R.string.block_ads,
+                            getString(R.string.interstitials), App.BLOCKING_INTERSITIALS));
+                }
+
+                final AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle(R.string.block_ads_title)
+                        .setItems(sequenceArrayList.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (App.canShowNewBannersVideo()) {
-                                    App.CUR_REWARD = "BANNERS";
-                                    AdUtils.showRewardVideoAd(getApplicationContext());
-                                } else {
-                                    Utilities.createLongToast(MainActivity.this,
-                                            R.string.error_try_watch_ad_again).show();
+                            public void onClick(DialogInterface dialog, int i) {
+                                if (sequenceArrayList.size() == 1) {
+                                    if (App.canShowNewBannersVideo()) {
+                                        showBannerVideo();
+                                    } else {
+                                        showInterstitialVideo();
+                                    }
+                                    return;
                                 }
-                                dialog.dismiss();
+                                switch (i) {
+                                    case 0:
+                                        showBannerVideo();
+                                        dialog.dismiss();
+                                        break;
+
+                                    case 1:
+                                        showInterstitialVideo();
+                                        dialog.dismiss();
+                                }
                             }
                         })
+
                         .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         })
-                        .setNeutralButton(R.string.interstitials, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int i) {
-                                if (App.canShowNewInterstitialVideo()) {
-                                    App.CUR_REWARD = "INTERSTITIAL";
-                                    AdUtils.showRewardVideoAd(getApplicationContext());
-                                } else {
-                                    Utilities.createLongToast(MainActivity.this,
-                                            R.string.error_try_watch_ad_again).show();
-                                }
-                                dialog.dismiss();
-                            }
-                        })
+
                         .setCancelable(true)
                         .create();
+
                 dialog.show();
-                if (!App.canShowNewBannersVideo()) {
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-                }
-
-                if (!App.canShowNewInterstitialVideo()) {
-                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setEnabled(false);
-                }
-
                 return true;
 
             case R.id.writeEmail:
-
+                App.writeEmail(this);
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showInterstitialVideo() {
+        if (App.canShowNewInterstitialVideo()) {
+            App.CUR_REWARD = "INTERSTITIAL";
+            AdUtils.showRewardVideoAd(getApplicationContext());
+        }
+    }
+
+    private void showBannerVideo() {
+        if (App.canShowNewBannersVideo()) {
+            App.CUR_REWARD = "BANNERS";
+            AdUtils.showRewardVideoAd(getApplicationContext());
         }
     }
 

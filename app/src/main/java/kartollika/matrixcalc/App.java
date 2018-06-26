@@ -2,9 +2,7 @@ package kartollika.matrixcalc;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.content.RestrictionEntry;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
@@ -14,8 +12,6 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.google.android.gms.ads.MobileAds;
-
-import java.util.ResourceBundle;
 
 public class App extends Application {
 

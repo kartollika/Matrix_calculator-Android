@@ -194,8 +194,10 @@
     <string name="setting_check_updates_manually">Проверить на наличие обновлений</string>
 
     <!-- String since 1.6.1 -->
+    <string name="block_ads_title">Выберите нужную опцию, чтобы заблокировать рекламу:</string>
     <string name="email_item_title">Написать разработчику</string>
     <string name="email_subject">Матричный калькулятор (Отзыв)</string>
     <string name="email_text">Докладываю о..</string>
     <string name="setting_email_summary">Сообщить об ошибке или предложить идею</string>
+    <string name="block_ads"><xliff:g example="1" id="type">%1$s</xliff:g> - заблокировать на <xliff:g example="1" id="time">%2$d</xliff:g> минут</string>
 </resources>
