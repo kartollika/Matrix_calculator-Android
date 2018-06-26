@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <PreferenceCategory
         android:key="dimensions"
@@ -54,20 +55,23 @@
 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_app">
+
         <PreferenceScreen
             android:key="version"
-            android:summary="1.0"
-            android:title="@string/app_version">
+            android:title="@string/app_version"
+            tools:summary="1.0">
 
         </PreferenceScreen>
-
+        <PreferenceScreen
+            android:key="writeEmail"
+            android:summary="@string/setting_email_summary"
+            android:title="@string/email_item_title" />
         <PreferenceScreen
             android:key="rateThis"
             android:summary="@string/do_you_like_it"
             android:title="@string/rate_in_gp">
 
         </PreferenceScreen>
-
         <PreferenceScreen
             android:key="checkUpdate"
             android:summary="@string/setting_check_updates_manually"

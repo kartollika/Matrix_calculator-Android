@@ -153,7 +153,7 @@
 
     <string name="app_settings">Настройки приложения</string>
 
-    <string name="rate_in_gp">Оценить приложение в Google Play</string>
+    <string name="rate_in_gp">Оценить в Google Play</string>
     <string name="do_you_like_it">Нравится приложение? Пожалуйста, оцените его в магазине</string>
 
     <string name="update_available">Доступно обновление!</string>
@@ -192,4 +192,10 @@
     <string name="setting_allow_checking_update">Проверять наличие новых обновлений при запуске</string>
     <string name="setting_title_check_updates_manually">Обновить</string>
     <string name="setting_check_updates_manually">Проверить на наличие обновлений</string>
+
+    <!-- String since 1.6.1 -->
+    <string name="email_item_title">Написать разработчику</string>
+    <string name="email_subject">Матричный калькулятор (Отзыв)</string>
+    <string name="email_text">Докладываю о..</string>
+    <string name="setting_email_summary">Сообщить об ошибке или предложить идею</string>
 </resources>

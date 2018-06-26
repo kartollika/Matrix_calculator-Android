@@ -1,5 +1,6 @@
 package kartollika.matrixcalc;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -137,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
                             R.string.error_try_watch_ad_again).show();
                     return true;
                 }
-                final AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle(R.string.remove_banners)
+                @SuppressLint({"StringFormatInvalid", "LocalSuppress"}) final AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle(R.string.remove_ads)
                         .setMessage(getString(R.string.message_about_removing_ads,
                                 App.BLOCKING_BANNERS, App.BLOCKING_INTERSITIALS))
                         .setPositiveButton(R.string.banners, new DialogInterface.OnClickListener() {
@@ -154,13 +155,13 @@ public class MainActivity extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         })
-                        .setNeutralButton(R.string.back, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         })
-                        .setNegativeButton(R.string.interstitials, new DialogInterface.OnClickListener() {
+                        .setNeutralButton(R.string.interstitials, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
                                 if (App.canShowNewInterstitialVideo()) {
@@ -185,6 +186,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 return true;
+
+            case R.id.writeEmail:
+
 
             default:
                 return super.onOptionsItemSelected(item);

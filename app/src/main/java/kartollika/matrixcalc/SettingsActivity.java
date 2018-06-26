@@ -144,6 +144,14 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
+        findPreference("writeEmail").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                App.writeEmail(SettingsActivity.this);
+                return true;
+            }
+        });
+
     }
 
     @Override

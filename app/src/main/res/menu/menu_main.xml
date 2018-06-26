@@ -19,4 +19,9 @@
         android:orderInCategory="102"
         android:title="@string/remove_ads"/>
 
+    <item
+        android:id="@+id/writeEmail"
+        android:orderInCategory="103"
+        android:title="@string/email_item_title"/>
+
 </menu>

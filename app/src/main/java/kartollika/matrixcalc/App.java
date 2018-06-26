@@ -1,11 +1,21 @@
 package kartollika.matrixcalc;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.content.RestrictionEntry;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import com.google.android.gms.ads.MobileAds;
+
+import java.util.ResourceBundle;
 
 public class App extends Application {
 
@@ -17,6 +27,7 @@ public class App extends Application {
     public static String CUR_REWARD;
     public static final int BLOCKING_BANNERS = 90;
     public static final int BLOCKING_INTERSITIALS = 60;
+    public static final String email = "maksimow.dmitrij@yandex.ru";
 
     private static long estimatedTimeRemovingBanners;
     private static long estimatedTimeRemovingInterstitial;
@@ -80,9 +91,33 @@ public class App extends Application {
         } else {
             editor.putBoolean("isDarkmode", false);
         }
-
-        /*editor.putLong("bannersEstimatedTime", estimatedTimeRemovingBanners);
-        editor.putLong("interstitialEstimatedTime", estimatedTimeRemovingInterstitial);*/
         editor.apply();
+    }
+
+    public static String getDeviceInfo(WindowManager windowManager) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+        return "Device Info:" + "\n OS Version: " +
+                System.getProperty("os.version") + "(" + Build.VERSION.CODENAME + ")" +
+                "\n App version/build: " + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE +
+                "\n OS API Level: " + Build.VERSION.SDK_INT +
+                "\n Device: " + Build.DEVICE +
+                "\n Model: " + Build.MODEL + " (" + Build.PRODUCT + ")" +
+                "\n Resolution " + metrics.widthPixels
+                + "x" + metrics.heightPixels;
+    }
+
+    public static void writeEmail(Activity activity) {
+        Resources resources = activity.getResources();
+        final Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{App.email});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT,
+                resources.getString(R.string.email_subject));
+        emailIntent.putExtra(Intent.EXTRA_TEXT,
+                resources.getString(R.string.email_text) +
+                        "\n\n\n==========================\n" +
+                        App.getDeviceInfo(activity.getWindowManager()));
+        activity.startActivity(Intent.createChooser(emailIntent, "Sending email..."));
     }
 }
